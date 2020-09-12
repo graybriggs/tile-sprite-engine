@@ -3,7 +3,7 @@
 
 #include "engine.hpp"
 
-class Sprite;
+class ImageAssetResource;
 
 class GameStates {
 public:

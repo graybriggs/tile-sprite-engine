@@ -3,7 +3,7 @@
 
 #include "device.h"
 #include "system_api.h"
-#include "sprite.h"
+#include "image_asset_resource.h"
 #include "timer.h"
 #include "video.h"
 

@@ -1,5 +1,5 @@
 
-#include "sprite.h"
+#include "image_asset_resource.h"
 #include "utility.h"
 #include "video.h"
 
@@ -29,9 +29,14 @@ void VideoDriver::drawAll() {
 	// TODO
 }
 
-void VideoDriver::drawSprite(const Sprite* sprite, SDL_Rect position) {
+void VideoDriver::drawSprite(const ImageAssetResource* img, SDL_Rect position) {
 	// position = bounding box
-	SDL_RenderCopy(renderer, sprite->getTexture(), &sprite->getClipBox(), &position);
+	SDL_RenderCopy(renderer, img->getTexture(), &img->getClipBox(), &position);
+}
+
+void VideoDriver::drawRotatedSprite(const ImageAssetResource* img, const SDL_Rect position, const double angle, const SDL_Point rot_point) {
+
+	SDL_RenderCopyEx(renderer, img->getTexture(), &img->getClipBox(), &position, angle, &rot_point, SDL_FLIP_NONE);
 }
 
 void VideoDriver::drawRectangle(int x, int y, int w, int h, int colorkey) {
