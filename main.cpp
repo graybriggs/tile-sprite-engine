@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "device.h"
+#include "input.h"
 #include "tile.h"
 #include "utility.h"
 #include "video.h"
@@ -16,6 +17,8 @@ int main(int argc, char* args[]) {
 
 	auto device = createDevice(DriverType::SDL2, 1200, 750, false);
 	auto video = device->getVideoDriver();
+
+	Input input;
 
 	SDL_Rect r = util::init_SDL_Rect(100, 100, 100, 100);
 
@@ -38,11 +41,13 @@ int main(int argc, char* args[]) {
 
 	while (device->run()) {
 
+		input.moveTiles(device->getFrameEvents(), tiles);
+
 		video->beginScene();
 
 		for (auto& t : tiles) {
-			//video->drawSprite(t->getImageAssetResource(), t->getBoundingBox().toSDL_Rect());
-			video->drawRotatedSprite(t->getImageAssetResource(), t->getBoundingBox().toSDL_Rect(), 45, p);
+			video->drawSprite(t->getImageAssetResource(), t->getBoundingBox().toSDL_Rect());
+			//video->drawRotatedSprite(t->getImageAssetResource(), t->getBoundingBox().toSDL_Rect(), 45, p);
 		}
 
 		video->endScene();
@@ -51,6 +56,8 @@ int main(int argc, char* args[]) {
 		++ang;
 		if (ang > 360.0)
 			ang = 0.0;
+
+		device->clearFrameEvents();
 	}
 
 	device->drop();

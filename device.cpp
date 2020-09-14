@@ -18,15 +18,35 @@ void Device::setWindowCaption(std::string s) {
 
 }
 
+std::vector<SDL_Event>& Device::getFrameEvents() {
+	return frame_events;
+}
+
+void Device::clearFrameEvents() {
+	frame_events.clear();
+}
+
 bool Device::run() {
 
 	while (SDL_PollEvent(&event)) {
-		if (event.type == SDL_QUIT)
-			return false;
+
+		frame_events.push_back(event);
+
+		for (auto& e : frame_events) {
+			if (e.type == SDL_QUIT)
+				return false;
+			if (e.type == SDL_KEYDOWN) {
+				if (e.key.keysym.sym == SDLK_ESCAPE)
+					return false;
+			}
+		}
+
 	}
 
 	return true;
 }
+
+
 
 std::unique_ptr<VideoDriver> Device::getVideoDriver() {
 

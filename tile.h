@@ -17,6 +17,9 @@ public:
 	ImageAssetResource* getImageAssetResource() const;
 	util::FRect getBoundingBox() const;
 
+	void setBoundingBox(float x, float y, int w, int h);
+	void setBoundingBox(util::FRect rect);
+
 private:
 	ImageAssetResource* image;
 	SDL_Rect img_clip;

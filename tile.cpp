@@ -16,3 +16,15 @@ ImageAssetResource* Tile::getImageAssetResource() const {
 util::FRect Tile::getBoundingBox() const {
 	return bounding_box;
 }
+
+void Tile::setBoundingBox(float x, float y, int w, int h) {
+	bounding_box.x_pos = x;
+	bounding_box.y_pos = y;
+	bounding_box.w     = w;
+	bounding_box.h     = h;
+
+}
+
+void Tile::setBoundingBox(const util::FRect rect) {
+	bounding_box = rect;
+}

@@ -3,6 +3,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 #include "system_api.h"
 
@@ -31,8 +32,13 @@ public:
 	Texture* getTexture(const std::string path);
 	Timer* getTimer();
 
+	std::vector<SDL_Event>& getFrameEvents();
+
+	void clearFrameEvents();
+
 public:
 	SDL_Event event;
+	std::vector<SDL_Event> frame_events;
 	SDL_Window* window;
 };
 
