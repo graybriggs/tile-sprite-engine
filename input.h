@@ -7,14 +7,13 @@
 #include <memory>
 #include <vector>
 
+typedef std::vector<SDL_Event> EventList;
 class Tile;
 
 class Input {
 public:
 
-	void moveTiles(std::vector<SDL_Event>&, std::vector<std::unique_ptr<Tile>>&);
-
-
+	void moveTiles(EventList& events, std::vector<std::unique_ptr<Tile>>& tiles);
 };
 
 #endif

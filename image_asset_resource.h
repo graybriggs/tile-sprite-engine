@@ -27,7 +27,6 @@ public:
 	void loadSprite(const VideoDriver& driver, const std::string path); // re constructor
 
 	SDL_Texture* getTexture() const;
-	ImageAssetResource* getSprite() const;
 	SDL_Rect getClipBox() const;
 	void setClipBox(SDL_Rect r);
 	void setTexture(SDL_Texture* tex);

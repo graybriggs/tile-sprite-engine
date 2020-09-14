@@ -5,10 +5,10 @@
 
 #include "tile.h"
 
-void Input::moveTiles(std::vector<SDL_Event>& events, std::vector<std::unique_ptr<Tile>>& tiles) {
+
+void Input::moveTiles(EventList& events, std::vector<std::unique_ptr<Tile>>& tiles) {
 
 	for (auto& e : events) {
-
 		switch (e.key.keysym.sym) {
 		case SDLK_UP: {
 			for (auto& t : tiles) {
@@ -46,5 +46,6 @@ void Input::moveTiles(std::vector<SDL_Event>& events, std::vector<std::unique_pt
 			break;
 		}
 	}
-
 }
+
+

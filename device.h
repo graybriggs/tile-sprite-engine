@@ -15,6 +15,8 @@ class Texture;
 class Timer;
 class VideoDriver;
 
+typedef std::vector<SDL_Event> EventList;
+
 class Device {
 public:
 
@@ -32,13 +34,12 @@ public:
 	Texture* getTexture(const std::string path);
 	Timer* getTimer();
 
-	std::vector<SDL_Event>& getFrameEvents();
+	EventList& getFrameEvents();
 
 	void clearFrameEvents();
 
 public:
-	SDL_Event event;
-	std::vector<SDL_Event> frame_events;
+	EventList frame_events;
 	SDL_Window* window;
 };
 

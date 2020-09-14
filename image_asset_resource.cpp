@@ -55,7 +55,6 @@ int ImageAssetResource::load_spritesheet(SDL_Renderer* renderer, SDL_Texture** s
 void ImageAssetResource::loadSprite(const VideoDriver& driver, std::string path) {
 
 	load_spritesheet(driver.getRenderer(), &texture, path);
-	
 }
 
 

@@ -1,4 +1,5 @@
 
+#include "entity.h"
 #include "image_asset_resource.h"
 #include "utility.h"
 #include "video.h"
@@ -32,6 +33,13 @@ void VideoDriver::drawAll() {
 void VideoDriver::drawSprite(const ImageAssetResource* img, SDL_Rect position) {
 	// position = bounding box
 	SDL_RenderCopy(renderer, img->getTexture(), &img->getClipBox(), &position);
+}
+
+void VideoDriver::drawSprite(const Entity* entity) {
+
+	SDL_Texture* tex = entity->getImageAssetResource()->getTexture();
+
+	SDL_RenderCopy(renderer, tex, &entity->getImageClip(), &(entity->getBoundingBox().toSDL_Rect()));
 }
 
 void VideoDriver::drawRotatedSprite(const ImageAssetResource* img, const SDL_Rect position, const double angle, const SDL_Point rot_point) {
