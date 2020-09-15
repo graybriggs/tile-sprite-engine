@@ -147,12 +147,10 @@ std::vector<Token> scanner(const std::string& syntax) {
 				column += atom.length();
 			}
 		}
-		}
+		} // default
 	}
 	return tokens;
 }
-
-
 
 std::string read_source(const std::string& filename) {
 
@@ -162,11 +160,10 @@ std::string read_source(const std::string& filename) {
 	long int size = ftell(f);
 	rewind(f);
 
-	auto extracted_source = std::make_unique<char>(size);
+	auto extracted_source = std::make_unique<char[]>(size);
 
 	fread(extracted_source.get(), 1, size, f);
+	fclose(f);
 
-	std::string syntax(extracted_source.get());
-
-	return syntax;
+	return std::string(extracted_source.get());
 }
