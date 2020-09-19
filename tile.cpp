@@ -10,11 +10,18 @@ Tile::Tile(ImageAssetResource* img, float x, float y, int w = constants::TILE_WI
 	frame_number(0)
 {
 	bounding_box.setFRect(x, y, w, h);
+	setImageClip(util::init_SDL_Rect(0, 0, 32, 32));
 	last_time = SDL_GetTicks();
 
 	cur_frame_clip = image->getClipBox(); // hack
 }
 
+void Tile::setBoundingBox(const float x, float y, int w, int h) {
+	bounding_box.x_pos = x;
+	bounding_box.y_pos = y;
+	bounding_box.w = w;
+	bounding_box.h = h;
+}
 
 void Tile::setBoundingBox(const util::FRect rect) {
 	bounding_box = rect;
@@ -22,18 +29,25 @@ void Tile::setBoundingBox(const util::FRect rect) {
 
 void Tile::update(float delta, float cur_time) {
 
-	if (cur_time > last_time + animation_interval_time) {
+	if (can_animate) {
 
-		if (frame_number > frame_clips.size() - 2)
-			frame_number = 0;
-		else
-			++frame_number;
+		if (cur_time > last_time + animation_interval_time) {
 
-		cur_frame_clip = frame_clips[frame_number];
-		setImageClip(cur_frame_clip);
+			if (frame_number > frame_clips.size() - 2)
+				frame_number = 0;
+			else
+				++frame_number;
 
-		last_time = cur_time;
+			cur_frame_clip = frame_clips[frame_number];
+			setImageClip(cur_frame_clip);
+
+			last_time = cur_time;
+		}
 	}
+}
+
+void Tile::setAnimatable(bool b) {
+	can_animate = b;
 }
 
 void Tile::animationLoopInterval(float interval) {

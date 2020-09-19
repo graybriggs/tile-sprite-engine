@@ -24,6 +24,7 @@ public:
 
 	void update(float delta, float cur_time);
 
+	void setAnimatable(bool);
 	void animationLoopInterval(float interval);
 	void animAddFrameClip(SDL_Rect clip);
 	void forceFrameClip(SDL_Rect clip);

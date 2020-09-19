@@ -55,5 +55,11 @@ void VideoDriver::drawRectangle(int x, int y, int w, int h, int colorkey) {
 	rect.w = w;
 	rect.h = h;
 
-	SDL_RenderDrawRect(renderer, &rect);
+	//SDL_RenderDrawRect(renderer, &rect);
+	SDL_RenderFillRect(renderer, &rect);
+}
+
+void VideoDriver::drawRectangle(util::FRect rect, int colorkey) {
+	
+	drawRectangle((int)rect.x_pos, (int)rect.y_pos, rect.w, rect.h, colorkey);
 }

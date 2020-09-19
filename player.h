@@ -6,16 +6,24 @@
 
 #include <vector>
 
+#include "entity.h"
+
 typedef std::vector<SDL_Event> EventList;
 
-class Player {
+class Player : public Entity {
 public:
 
-	void handleInput(EventList&);
+	Player();
 
+	void handleInput(const EventList&);
+	void update(const float delta);
 	// updateFrame(time);
 
 
+private:
+
+	enum class PlayerStates { STOP, STAND, LEFT, RIGHT, UP, DOWN, BACK };
+	PlayerStates state;
 };
 
 #endif

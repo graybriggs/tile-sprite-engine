@@ -1,6 +1,7 @@
 
 #include "file_read_main.h"
 
+#include <algorithm>
 #include <cstring>
 #include <cstdio>
 #include <memory>
@@ -43,8 +44,6 @@ std::vector<TileRawInfo> file_read_main() {
 	std::vector<TileRawInfo> tile_info;
 	
 	for (int begin_seg = 0; begin_seg < source.length(); ++begin_seg) {
-		TileRawInfo tile;
-
 
 		if (source[begin_seg] == '{') {
 
@@ -53,78 +52,46 @@ std::vector<TileRawInfo> file_read_main() {
 				++end_seg;
 			}
 
-			auto test = std::make_unique<char[]>(source.size());
-			//char* test = new char[source.size()];
-			std::memcpy(test.get(), source.c_str(), end_seg - begin_seg);
+			source.erase(std::remove(std::begin(source), std::end(source), '\n'), std::end(source));
+
 			std::vector<char*> vals;
-
-			char* pch = strtok(test.get(), " ");
-
+			std::string tile_info_str = source.substr(begin_seg, end_seg - begin_seg);
+			
+			char* pch = strtok(&tile_info_str[0], " ");
 			while (pch != nullptr) {
 				vals.push_back(pch);
 				pch = strtok(nullptr, " ");
 			}
-						
+			
+			
+			TileRawInfo tile;
+			/*
 			std::strcpy(tile.file_path, vals[0]);
-			tile.bb_x = std::stoi(vals[1]);
-			tile.bb_y = std::stoi(vals[2]);
-			tile.bb_w = std::stoi(vals[3]);
-			tile.bb_h = std::stoi(vals[4]);
-			tile.is_collide = std::stoi(vals[5]);
-			tile.is_anim = std::stoi(vals[6]);
-			tile.no_frames = std::stoi(vals[7]);
-			tile.frame_delay = std::stoi(vals[8]);
+			tile.bb_x = std::stoi(std::string(vals[1]));
+			tile.bb_y = std::stoi(std::string(vals[2]));
+			tile.bb_w = std::stoi(std::string(vals[3]));
+			tile.bb_h = std::stoi(std::string(vals[4]));
+			tile.is_collide = std::stoi(std::string(vals[5]));
+			tile.is_anim = std::stoi(std::string(vals[6]));
+			tile.no_frames = std::stoi(std::string(vals[7]));
+			tile.frame_delay = std::stoi(std::string(vals[8]));
 		
 			if (tile.is_anim) {
 
-				auto it = std::begin(vals) + 8;
-				for (it; it < std::end(vals); it += 4) {
+				/*
+				for (std::size_t i = 8; i <= vals.size() - 4; i += 4) {
 					SDL_Rect r;
-					r.x = std::stoi(*it);
-					r.y = std::stoi(*it + 1);
-					r.w = std::stoi(*it + 2);
-					r.h = std::stoi(*it + 3);
+					r.x = std::stoi(vals[i+1]);
+					r.y = std::stoi(vals[i+2]);
+					r.w = std::stoi(vals[i+3]);
+					r.h = std::stoi(vals[i+4]);
 					tile.frame_clips.push_back(r);
 				}
-			}
-			/*
-	
-
-				int i = 0;
-				int start = 0;
-				SDL_Rect clip_data;
-				int member = 0;
-				while (segment[i] != '\n') {
-
-					if (is_whitespace(segment[i])) {
-						std::string value = segment.substr(start, i);
-						int val = std::stoi(value);
-
-						if (member == 0)
-							clip_data.x = val;
-						else if (member == 1)
-							clip_data.y = val;
-						else if (member == 2)
-							clip_data.w = val;
-						else if (member == 3)
-							clip_data.h = val;
-
-						start = i;
-					}
-
-					if (member > 4) {
-						tile_info.frame_clips.push_back(clip_data);
-						member = 0;
-					}
-					++i;
-				}
+				*/
 				
-			}
-			begin_seg = end_seg;
-			*/
-			//tile_info.push_back(tile);
+			//}
+			tile_info.push_back(tile);
 		}
-		
 	}
 	return tile_info;
 }
