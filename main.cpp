@@ -73,7 +73,7 @@ int main(int argc, char* args[]) {
 	anim_tile2->setBoundingBox(re2.x_pos, re2.y_pos, re2.w, re2.h);
 	tiles[200] = std::move(anim_tile2);
 
-	auto player = std::unique_ptr<Player>();
+	auto player = std::make_unique<Player>();
 
 
 	while (device->run()) {
@@ -81,14 +81,14 @@ int main(int argc, char* args[]) {
 		cur_time = SDL_GetTicks();
 
 		input.moveTiles(device->getFrameEvents(), tiles);
-		player.handleInput(device->getFrameEvents());
+		player->handleInput(device->getFrameEvents());
 
 		//tiles[100]->update(delta, cur_time);
 
 		for (auto& t : tiles) {
 			t->update(delta, cur_time);
 		}
-		player.update(delta);
+		player->update(delta);
 
 		video->beginScene();
 
@@ -97,7 +97,7 @@ int main(int argc, char* args[]) {
 			//video->drawRotatedSprite(t->getImageAssetResource(), t->getBoundingBox().toSDL_Rect(), 45, p);
 		}
 
-		video->drawRectangle(player.getBoundingBox(), 0xFF000000);
+		video->drawRectangle(player->getBoundingBox(), 0xFF000000);
 
 		//video->drawSprite(&anim_tile);
 		video->endScene();

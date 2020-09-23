@@ -58,8 +58,8 @@ void Player::handleInput(const EventList& events) {
 
 void Player::update(const float delta) {
 
-	const float X_MOVE_SPEED = 1.0f;
-	const float Y_MOVE_SPEED = 0.9f;
+	//const float X_MOVE_SPEED = 1.0f;
+	//const float Y_MOVE_SPEED = 0.9f;
 
 	if (state == PlayerStates::LEFT) {
 		moveBy(-X_MOVE_SPEED, 0.0f);
