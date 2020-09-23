@@ -13,7 +13,8 @@ Tile::Tile(ImageAssetResource* img, float x, float y, int w = constants::TILE_WI
 	setImageClip(util::init_SDL_Rect(0, 0, 32, 32));
 	last_time = SDL_GetTicks();
 
-	cur_frame_clip = image->getClipBox(); // hack
+	//cur_frame_clip = image->getClipBox(); // hack
+	//cur_frame_clip = 
 }
 
 void Tile::setBoundingBox(const float x, float y, int w, int h) {
@@ -62,6 +63,7 @@ void Tile::animationLoopInterval(float interval) {
 
 void Tile::animAddFrameClip(SDL_Rect clip) {
 	frame_clips.push_back(clip);
+	cur_frame_clip = frame_clips.back();
 }
 
 SDL_Rect Tile::getImageClip() const {

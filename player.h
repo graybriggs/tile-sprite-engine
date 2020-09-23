@@ -13,12 +13,14 @@ typedef std::vector<SDL_Event> EventList;
 class Player : public Entity {
 public:
 
+	const float X_MOVE_SPEED = 1.0f;
+	const float Y_MOVE_SPEED = 0.9f;
+
 	Player();
 
 	void handleInput(const EventList&);
 	void update(const float delta);
 	// updateFrame(time);
-
 
 private:
 

@@ -62,6 +62,7 @@ SDL_Texture* ImageAssetResource::getTexture() const {
 	return texture;
 }
 
+/*
 SDL_Rect ImageAssetResource::getClipBox() const {
 	return clip_box;
 }
@@ -72,7 +73,7 @@ void ImageAssetResource::setClipBox(SDL_Rect r) {
 	clip_box.w = r.w;
 	clip_box.h = r.h;
 }
-
+*/
 void ImageAssetResource::setTexture(SDL_Texture* tex) {
 	texture = tex;
 }

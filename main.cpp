@@ -26,7 +26,7 @@ int main(int argc, char* args[]) {
 	SDL_Rect r = util::init_SDL_Rect(100, 100, 100, 100);
 
 	ImageAssetResource imr(*video, "./images/smb_tilesheet.bmp");
-	imr.setClipBox(util::init_SDL_Rect(0, 0, 32, 32));
+	//imr.setClipBox(util::init_SDL_Rect(0, 0, 32, 32));
 
 	std::vector<std::unique_ptr<Tile>> tiles;
 
@@ -46,7 +46,7 @@ int main(int argc, char* args[]) {
 	float cur_time = SDL_GetTicks();
 
 	ImageAssetResource anim_res(*video, "./images/tile_anim.bmp");
-	anim_res.setClipBox(util::init_SDL_Rect(100, 100, 32, 32));
+	//anim_res.setClipBox(util::init_SDL_Rect(100, 100, 32, 32));
 	auto anim_tile = std::make_unique<Tile>(&anim_res, 100, 100, 32, 32);
 	anim_tile->setAnimatable(true);
 	anim_tile->animAddFrameClip(util::init_SDL_Rect(0, 0, 32, 32));
@@ -57,12 +57,23 @@ int main(int argc, char* args[]) {
 	anim_tile->animAddFrameClip(util::init_SDL_Rect(64, 32, 32, 32));
 	anim_tile->animationLoopInterval(250);
 
+
+	auto anim_tile2 = std::make_unique<Tile>(&anim_res, 200, 200, 32, 32);
+	anim_tile2->setAnimatable(true);
+	anim_tile2->animAddFrameClip(util::init_SDL_Rect(32, 0, 32, 32));
+	anim_tile2->animAddFrameClip(util::init_SDL_Rect(0, 32, 32, 32));
+	anim_tile2->animAddFrameClip(util::init_SDL_Rect(64, 32, 32, 32));
+	anim_tile2->animationLoopInterval(300);
+
 	util::FRect re = tiles[100]->getBoundingBox();
 	anim_tile->setBoundingBox(re.x_pos, re.y_pos, re.w, re.h);
 	tiles[100] = std::move(anim_tile);
 
+	util::FRect re2 = tiles[200]->getBoundingBox();
+	anim_tile2->setBoundingBox(re2.x_pos, re2.y_pos, re2.w, re2.h);
+	tiles[200] = std::move(anim_tile2);
 
-	Player player;
+	auto player = std::unique_ptr<Player>();
 
 
 	while (device->run()) {
