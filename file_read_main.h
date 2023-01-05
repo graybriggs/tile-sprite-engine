@@ -2,10 +2,6 @@
 #ifndef FILE_READ_MAIN_H
 #define FILE_READ_MAIN_H
 
-// for fopen; fread; sscanf
-#ifdef _MSC_VER
-#define _CRT_SECURE_NO_WARNINGS
-#endif
 
 #include <SDL.h>
 
@@ -13,18 +9,21 @@
 #include <string>
 #include <vector>
 
-struct TileRawInfo {
-	TileRawInfo();
-	char file_path[256];
-	int bb_x, bb_y, bb_w, bb_h;
-	int is_collide, is_anim, no_frames, frame_delay;
-	std::vector<SDL_Rect> frame_clips;
-};
+namespace GTE {
 
-int count_spaces(const std::string& str, std::size_t from, std::size_t to);
-
-std::string read_source(const std::string& filename);
-std::vector<TileRawInfo> file_read_main();
+	struct TileRawInfo {
+		TileRawInfo();
+		std::string file_path;
+		int bb_x, bb_y, bb_w, bb_h;
+		int is_collide, is_anim, no_frames, frame_delay;
+		std::vector<SDL_Rect> frame_clips;
+	};
 
 
+	std::string file_read(const std::string filename);
+	std::vector<std::string> file_read_lines(const std::string filename);
+	std::vector<TileRawInfo> file_read_main(const std::string filename);
+	std::vector<std::string> strtok(const std::string str, const char delim);
+
+}
 #endif

@@ -17,7 +17,8 @@
 
 int main(int argc, char* args[]) {
 
-	std::vector<TileRawInfo> tri = file_read_main();
+	std::vector<GTE::TileRawInfo> test = GTE::file_read_main("tile_format_idea.txt");
+	//std::vector<TileRawInfo> tri = file_read_main();
 
 	auto device = createDevice(DriverType::SDL2, constants::SCREEN_WIDTH, constants::SCREEN_HEIGHT, false);
 	auto video = device->getVideoDriver();
