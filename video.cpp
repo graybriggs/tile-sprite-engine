@@ -37,13 +37,15 @@ void VideoDriver::drawSprite(const ImageAssetResource* img, SDL_Rect position) {
 }
 */
 
-void VideoDriver::drawSprite(const Entity* entity) {
+void VideoDriver::drawSprite(Entity* entity) {
 
 	SDL_Texture* tex = entity->getImageAssetResource()->getTexture();
 
-	SDL_Rect r = entity
+	SDL_Rect r = entity->getSDL_Rect();
+	// needs to remain for duration of SDL_RenderCopy
+	SDL_Rect clip = entity->getImageClip();
 
-	SDL_RenderCopy(renderer, tex, &entity->getImageClip(), entity->getSDL_Rect());
+	SDL_RenderCopy(renderer, tex, &clip, &r);
 }
 
 /*
