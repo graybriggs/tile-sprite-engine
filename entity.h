@@ -14,9 +14,9 @@ public:
 	Entity(ImageAssetResource* s, const util::Rect bb);
 	virtual ~Entity();
 
-	void moveTo(const double x, const double y);
-	void moveBy(const double x, const double y);
-	void setPosition(const double x, const double y);
+	void moveTo(const float x, const float y);
+	void moveBy(const float x, const float y);
+	void setPosition(const float x, const float y);
 	void setPosition(const SDL_Rect);
 	void setPosition(const util::Rect);
 	util::Rect getBoundingBox();

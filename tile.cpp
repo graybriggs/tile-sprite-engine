@@ -11,7 +11,7 @@ Tile::Tile(ImageAssetResource* img, float x, float y, int w = constants::TILE_WI
 {
 	bounding_box.setRect(x, y, w, h);
 	setImageClip(util::init_SDL_Rect(0, 0, 32, 32));
-	last_time = SDL_GetTicks();
+	last_time = (float)SDL_GetTicks();
 
 	//cur_frame_clip = image->getClipBox(); // hack
 	//cur_frame_clip = 
@@ -54,7 +54,7 @@ void Tile::setAnimatable(bool b) {
 void Tile::animationLoopInterval(float interval) {
 
 	if (interval >= 0)
-		animation_interval_time = interval;
+		animation_interval_time = (float)interval;
 	else
 	{
 		// throw what are you doing?

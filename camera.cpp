@@ -17,7 +17,7 @@ void Camera::setCameraType(CameraType type) {
 	cam_type = type;
 }
 
-void Camera::moveTiles(EventList& events, std::vector<std::unique_ptr<Tile>>& tiles, const Player& p) {
+void Camera::moveTiles(EventList& events, std::vector<std::unique_ptr<Tile>>& tiles, Player& p) {
 
 
 	// debug

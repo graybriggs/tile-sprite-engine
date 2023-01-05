@@ -43,7 +43,7 @@ std::vector<TileRawInfo> file_read_main() {
 
 	std::vector<TileRawInfo> tile_info;
 	
-	for (int begin_seg = 0; begin_seg < source.length(); ++begin_seg) {
+	for (std::size_t begin_seg = 0; begin_seg < source.length(); ++begin_seg) {
 
 		if (source[begin_seg] == '{') {
 

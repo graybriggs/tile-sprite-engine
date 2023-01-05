@@ -11,24 +11,23 @@ Entity::~Entity() {
 
 }
 
-void Entity::moveTo(const double x, const double y) {
+void Entity::moveTo(const float x, const float y) {
 	bounding_box.x_pos = x;
 	bounding_box.y_pos = y;
 }
 
-void Entity::moveBy(const double x, const double y) {
-
+void Entity::moveBy(const float x, const float y) {
 	bounding_box.x_pos += x;
 	bounding_box.y_pos += y;
 }
 
-void Entity::setPosition(const double x, const double y) {
+void Entity::setPosition(const float x, const float y) {
 	moveTo(x, y);
 }
 
 void Entity::setPosition(const SDL_Rect r) {
-	bounding_box.x_pos = r.x;
-	bounding_box.y_pos = r.y;
+	bounding_box.x_pos = (float)r.x;
+	bounding_box.y_pos = (float)r.y;
 }
 
 void Entity::setPosition(const util::Rect pos) {
@@ -54,10 +53,10 @@ void Entity::setBoundingBox(util::Rect box) {
 }
 
 void Entity::setBoundingBox(SDL_Rect box) {
-	bounding_box.x_pos = box.x;
-	bounding_box.y_pos = box.y;
-	bounding_box.w = box.w;
-	bounding_box.h = box.h;
+	bounding_box.x_pos = (float)box.x;
+	bounding_box.y_pos = (float)box.y;
+	bounding_box.w = (float)box.w;
+	bounding_box.h = (float)box.h;
 }
 
 void Entity::setBoundingBox(float x, float y, int w, int h) {

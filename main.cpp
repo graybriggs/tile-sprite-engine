@@ -47,8 +47,8 @@ int main(int argc, char* args[]) {
 
 	double ang = 0.0;
 
-	float delta = SDL_GetTicks();
-	float cur_time = SDL_GetTicks();
+	float delta = (float)SDL_GetTicks();
+	float cur_time = (float)SDL_GetTicks();
 
 	ImageAssetResource anim_res(*video, "./images/tile_anim.bmp");
 	//anim_res.setClipBox(util::init_SDL_Rect(100, 100, 32, 32));
@@ -85,7 +85,7 @@ int main(int argc, char* args[]) {
 
 	while (device->run()) {
 
-		cur_time = SDL_GetTicks();
+		cur_time = (float)SDL_GetTicks();
 
 		//input.moveTiles(device->getFrameEvents(), tiles);
 		player->handleInput(device->getFrameEvents());
