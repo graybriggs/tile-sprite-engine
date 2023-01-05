@@ -23,7 +23,7 @@ public:
 	void drawSprite(const Entity*);
 	//void drawImage(Texture* tex, int x, int y, int clipx, int clipy, int colorkey);
 	void drawRectangle(int x, int y, int w, int h, int colorkey);
-	void drawRectangle(util::FRect rect, int colorkey);
+	void drawRectangle(util::Rect rect, int colorkey);
 	void drawRotatedSprite(const ImageAssetResource*, const SDL_Rect pos, const double angle, const SDL_Point rot_point);
 
 public:

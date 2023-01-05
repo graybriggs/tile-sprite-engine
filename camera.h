@@ -1,3 +1,4 @@
+#pragma once
 
 #ifndef CAMERA_H
 #define CAMERA_H
@@ -8,20 +9,29 @@
 #include <vector>
 
 typedef std::vector<SDL_Event> EventList;
+class Player;
+class Tile;
+
 
 
 class Camera {
 public:
+
+	enum class CameraType { LOCK_ON, COLLISION };
+
+	Camera(CameraType = CameraType::LOCK_ON);
+
+	void setCameraType(CameraType);
 	void moveTiles(EventList& events, std::vector<std::unique_ptr<Tile>>& tiles, const Player&);
-	void setScrollCollision(const SDL_Rect);
+	void setScrollCollisionBounds(const SDL_Rect);
 
 
 private:
 
+	CameraType cam_type;
+	SDL_Rect camera_position;
 	SDL_Rect scroll_collision;
-
-	bool lock_on_center;
-
 };
 
 #endif
+

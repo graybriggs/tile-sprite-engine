@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "entity.h"
+#include "utility.h"
 
 typedef std::vector<SDL_Event> EventList;
 
@@ -22,6 +23,9 @@ public:
 	void update(const float delta);
 	// updateFrame(time);
 
+	util::Rect getBoundingBox();
+	void setBoundingBox(const util::Rect);
+	void setScreenPosition(const int x, const int y);
 private:
 
 	enum class PlayerStates { STOP, STAND, LEFT, RIGHT, UP, DOWN, BACK };

@@ -41,7 +41,9 @@ void VideoDriver::drawSprite(const Entity* entity) {
 
 	SDL_Texture* tex = entity->getImageAssetResource()->getTexture();
 
-	SDL_RenderCopy(renderer, tex, &entity->getImageClip(), &(entity->getBoundingBox().toSDL_Rect()));
+	SDL_Rect r = entity
+
+	SDL_RenderCopy(renderer, tex, &entity->getImageClip(), entity->getSDL_Rect());
 }
 
 /*
@@ -63,7 +65,7 @@ void VideoDriver::drawRectangle(int x, int y, int w, int h, int colorkey) {
 	SDL_RenderFillRect(renderer, &rect);
 }
 
-void VideoDriver::drawRectangle(util::FRect rect, int colorkey) {
+void VideoDriver::drawRectangle(util::Rect rect, int colorkey) {
 	
 	drawRectangle((int)rect.x_pos, (int)rect.y_pos, rect.w, rect.h, colorkey);
 }

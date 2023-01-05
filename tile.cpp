@@ -4,12 +4,12 @@
 
 
 Tile::Tile(ImageAssetResource* img, float x, float y, int w = constants::TILE_WIDTH, int h = constants::TILE_HEIGHT)
-	: Entity(img, util::FRect(x,y,w,h)),
+	: Entity(img, util::Rect(x,y,w,h)),
 	can_animate(false),
 	animation_interval_time(0),
 	frame_number(0)
 {
-	bounding_box.setFRect(x, y, w, h);
+	bounding_box.setRect(x, y, w, h);
 	setImageClip(util::init_SDL_Rect(0, 0, 32, 32));
 	last_time = SDL_GetTicks();
 
@@ -24,7 +24,7 @@ void Tile::setBoundingBox(const float x, float y, int w, int h) {
 	bounding_box.h = h;
 }
 
-void Tile::setBoundingBox(const util::FRect rect) {
+void Tile::setBoundingBox(const util::Rect rect) {
 	bounding_box = rect;
 }
 
@@ -64,6 +64,9 @@ void Tile::animationLoopInterval(float interval) {
 void Tile::animAddFrameClip(SDL_Rect clip) {
 	frame_clips.push_back(clip);
 	cur_frame_clip = frame_clips.back();
+}
+
+void Tile::forceFrameClip(SDL_Rect clip) {
 }
 
 SDL_Rect Tile::getImageClip() const {

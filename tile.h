@@ -20,7 +20,7 @@ public:
 	Tile(ImageAssetResource* img, float x, float y, int w, int h);
 
 	void setBoundingBox(float x, float y, int w, int h);
-	void setBoundingBox(util::FRect rect);
+	void setBoundingBox(util::Rect rect);
 
 	void update(float delta, float cur_time);
 

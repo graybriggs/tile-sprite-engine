@@ -1,6 +1,7 @@
 #include "entity.h"
+#include "utility.h"
 
-Entity::Entity(ImageAssetResource* iar, const util::FRect bb)
+Entity::Entity(ImageAssetResource* iar, const util::Rect bb)
 	: image(iar),
 	bounding_box(bb)
 {
@@ -30,17 +31,33 @@ void Entity::setPosition(const SDL_Rect r) {
 	bounding_box.y_pos = r.y;
 }
 
-void Entity::setPosition(const util::FRect pos) {
+void Entity::setPosition(const util::Rect pos) {
 	bounding_box.x_pos = pos.x_pos;
 	bounding_box.x_pos = pos.y_pos;
 }
 
-util::FRect Entity::getBoundingBox() const {
+util::Rect Entity::getBoundingBox() {
 	return bounding_box;
 }
 
-void Entity::setBoundingBox(util::FRect box) {
+SDL_Rect Entity::getSDL_Rect() {
+	return util::init_SDL_Rect(
+		bounding_box.x_pos,
+		bounding_box.y_pos,
+		bounding_box.w,
+		bounding_box.h
+	);
+}
+
+void Entity::setBoundingBox(util::Rect box) {
 	bounding_box = box;
+}
+
+void Entity::setBoundingBox(SDL_Rect box) {
+	bounding_box.x_pos = box.x;
+	bounding_box.y_pos = box.y;
+	bounding_box.w = box.w;
+	bounding_box.h = box.h;
 }
 
 void Entity::setBoundingBox(float x, float y, int w, int h) {

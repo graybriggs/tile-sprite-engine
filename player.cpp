@@ -2,7 +2,7 @@
 #include "player.h"
 
 Player::Player() 
-	: Entity(nullptr, util::FRect(0, 0, 32, 64))
+	: Entity(nullptr, util::Rect(0, 0, 32, 64))
 {
 }
 
@@ -76,6 +76,16 @@ void Player::update(const float delta) {
 	if (state == PlayerStates::STOP) {
 
 	}
+}
 
+util::Rect Player::getBoundingBox() {
+	return Entity::getBoundingBox();
+}
 
+void Player::setBoundingBox(const util::Rect bb) {
+	Entity::setBoundingBox(bb);
+}
+
+void Player::setScreenPosition(const int x, const int y) {
+	Entity::setPosition(x, y);
 }

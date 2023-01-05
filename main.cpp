@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include "camera.h"
 #include "device.h"
 #include "file_read_main.h"
 #include "input.h"
@@ -18,10 +19,14 @@ int main(int argc, char* args[]) {
 
 	std::vector<TileRawInfo> tri = file_read_main();
 
-	auto device = createDevice(DriverType::SDL2, 1200, 750, false);
+	auto device = createDevice(DriverType::SDL2, constants::SCREEN_WIDTH, constants::SCREEN_HEIGHT, false);
 	auto video = device->getVideoDriver();
 
-	Input input;
+	
+
+	auto camera = std::make_unique<Camera>();
+	camera->setCameraType(Camera::CameraType::LOCK_ON);
+	camera->setScrollCollisionBounds(util::init_SDL_Rect(200, 150, constants::SCREEN_WIDTH - 200, constants::SCREEN_HEIGHT - 150));
 
 	SDL_Rect r = util::init_SDL_Rect(100, 100, 100, 100);
 
@@ -65,22 +70,24 @@ int main(int argc, char* args[]) {
 	anim_tile2->animAddFrameClip(util::init_SDL_Rect(64, 32, 32, 32));
 	anim_tile2->animationLoopInterval(300);
 
-	util::FRect re = tiles[100]->getBoundingBox();
+	util::Rect re = tiles[100]->getBoundingBox();
 	anim_tile->setBoundingBox(re.x_pos, re.y_pos, re.w, re.h);
 	tiles[100] = std::move(anim_tile);
 
-	util::FRect re2 = tiles[200]->getBoundingBox();
+	util::Rect re2 = tiles[200]->getBoundingBox();
 	anim_tile2->setBoundingBox(re2.x_pos, re2.y_pos, re2.w, re2.h);
 	tiles[200] = std::move(anim_tile2);
 
 	auto player = std::make_unique<Player>();
+	player->setScreenPosition(600, 425);
+
 
 
 	while (device->run()) {
 
 		cur_time = SDL_GetTicks();
 
-		input.moveTiles(device->getFrameEvents(), tiles);
+		//input.moveTiles(device->getFrameEvents(), tiles);
 		player->handleInput(device->getFrameEvents());
 
 		//tiles[100]->update(delta, cur_time);
@@ -90,7 +97,10 @@ int main(int argc, char* args[]) {
 		}
 		player->update(delta);
 
+		camera->moveTiles(device->getFrameEvents(), tiles, *player.get());
+
 		video->beginScene();
+		
 
 		for (auto& t : tiles) {
 			video->drawSprite(t.get());
@@ -98,6 +108,8 @@ int main(int argc, char* args[]) {
 		}
 
 		video->drawRectangle(player->getBoundingBox(), 0xFF000000);
+
+		
 
 		//video->drawSprite(&anim_tile);
 		video->endScene();

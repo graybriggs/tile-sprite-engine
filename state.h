@@ -1,13 +1,16 @@
+#pragma once
+
 #ifndef STATE_H
 #define STATE_H
 
-#include "engine.hpp"
+//#include "engine.hpp"
 
 class ImageAssetResource;
 
 class GameStates {
 public:
 
+	/*
 	virtual void init(Engine*) = 0;
 	virtual void cleanup() = 0;
 
@@ -21,7 +24,7 @@ public:
 	void changeState(Engine* eng, GameStates* state) {
 		eng->changeState(state);
 	}
-
+	*/
 };
 
-#endif#pragma once
+#endif
