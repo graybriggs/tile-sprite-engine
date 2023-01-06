@@ -1,5 +1,6 @@
 
 #include "file_read_main.h"
+#include "tile.h"
 
 #include <algorithm>
 #include <fstream>
@@ -8,20 +9,121 @@
 #include <iostream>
 #include <sstream>
 
-
-/*
 TileRawInfo::TileRawInfo() :
 	bb_x(0), bb_y(0), bb_w(0), bb_h(0),
-	is_collide(0), is_anim(0), no_frames(0), frame_delay(0),
+	tilesheet_x(0), tilesheet_y(0),
+	is_collide(0), no_frames(0), frame_delay(0),
 	file_path("")
 {
 }
-*/
 
+TileRawInfo::TileRawInfo(Tile t) {
 
-bool is_whitespace(const char c) {
-	return (c == ' ' || c == '\n' || c == '\t');
+	file_path = t.getTileImagePath();
+
+	if (t.getCanAnimate()) {
+		tile_type = TileType::ANIM;
+
+		frame_clips = t.getFrameClips();
+	}
+	else {
+		tile_type = TileType::STATC;
+	}
+
+	SDL_Rect r = t.getSDL_Rect();
+	bb_x = r.x;
+	bb_y = r.y;
+	bb_w = r.w;
+	bb_h = r.h;
+	tilesheet_x = t.getImageClip().x;
+	tilesheet_y = t.getImageClip().y;
+	is_collide = t.getIsCollidable(); // bool to int
+	no_frames = t.getNumFrames();
+	frame_delay = t.getFrameDelayTime();
+
 }
+
+
+
+std::vector<TileRawInfo> file_read_main(const std::string filename) {
+
+	std::vector<std::string> source = file_read_lines(filename);
+
+	std::vector<TileRawInfo> tile_info;
+	
+	auto it = std::begin(source);
+	for (it; it != std::end(source); it++) {
+
+		std::string line = *it;
+
+		// skip comments
+		if (line[0] == '#')
+			continue;
+
+		if (line[0] == '}')
+			continue;
+
+		if (line[0] == '{') {
+			it++;
+			
+			std::string get_tile_type = *it;
+						
+			TileRawInfo raw_tile;
+
+			if (get_tile_type[0] == 's') { // probably should use a proper strcmp
+				raw_tile.tile_type == TileType::STATC;
+			}
+			else {
+				raw_tile.tile_type == TileType::ANIM;
+			}
+
+			it++;
+			std::string line = *it;
+			std::vector<std::string> tokens = str_split(line, ' ');
+
+			raw_tile.file_path = tokens[0];
+			raw_tile.bb_x = std::stoi(tokens[1]);
+			raw_tile.bb_y = std::stoi(tokens[2]);
+			raw_tile.bb_w = std::stoi(tokens[3]);
+			raw_tile.bb_h = std::stoi(tokens[4]);
+			raw_tile.tilesheet_x = std::stoi(tokens[5]);
+			raw_tile.tilesheet_y = std::stoi(tokens[6]);
+			raw_tile.is_collide = std::stoi(tokens[7]);
+			raw_tile.no_frames = std::stoi(tokens[8]);
+			raw_tile.frame_delay = std::stoi(tokens[9]);
+			
+			if (raw_tile.tile_type == TileType::ANIM) {
+				it++;
+				std::string c = *it;
+				std::vector<std::string> clips = str_split(c, ' ');
+				
+				for (std::size_t i = 0; i <= clips.size() - 4; i += 4) {
+					SDL_Rect r;
+					r.x = std::stoi(clips[i]);
+					r.y = std::stoi(clips[i+1]);
+					r.w = std::stoi(clips[i+2]);
+					r.h = std::stoi(clips[i+3]);
+					raw_tile.frame_clips.push_back(r);
+				}
+			}
+			tile_info.push_back(raw_tile);
+		}
+	}
+	return tile_info;
+}
+
+
+void write_tile_data(std::vector<Tile>& tiles) {
+
+	for (auto& tile : tiles) {
+
+
+
+	}
+}
+
+/////////////////////
+/////////////////////
 
 std::string file_read(const std::string filename) {
 
@@ -50,73 +152,6 @@ std::vector<std::string> file_read_lines(const std::string filename) {
 	return data;
 }
 
-
-std::vector<TileRawInfo> file_read_main(const std::string filename) {
-
-	std::vector<std::string> source = file_read_lines(filename);
-
-	std::vector<TileRawInfo> tile_info;
-	
-	auto it = std::begin(source);
-	for (it; it != std::end(source); it++) {
-
-		std::string line = *it;
-
-		// skip comments
-		if (line[0] == '#')
-			continue;
-
-		if (line[0] == '}')
-			continue;
-
-		if (line[0] == '{') {
-			it++;
-			
-			std::string get_tile_type = *it;
-						
-			TileRawInfo tile;
-
-			if (get_tile_type[0] == 's') { // probably should use a proper strcmp
-				tile.tile_type == TileType::STATC;
-			}
-			else {
-				tile.tile_type == TileType::ANIM;
-			}
-
-			it++;
-			std::string line = *it;
-			std::vector<std::string> tokens = str_split(line, ' ');
-
-			tile.file_path = tokens[0];
-			tile.bb_x = std::stoi(tokens[1]);
-			tile.bb_y = std::stoi(tokens[2]);
-			tile.bb_w = std::stoi(tokens[3]);
-			tile.bb_h = std::stoi(tokens[4]);
-			tile.tilesheet_x = std::stoi(tokens[5]);
-			tile.tilesheet_y = std::stoi(tokens[6]);
-			tile.is_collide = std::stoi(tokens[7]);
-			tile.no_frames = std::stoi(tokens[8]);
-			tile.frame_delay = std::stoi(tokens[9]);
-			
-			if (tile.tile_type == TileType::ANIM) {
-				it++;
-				std::string c = *it;
-				std::vector<std::string> clips = str_split(c, ' ');
-				
-				for (std::size_t i = 0; i <= clips.size() - 4; i += 4) {
-					SDL_Rect r;
-					r.x = std::stoi(clips[i]);
-					r.y = std::stoi(clips[i+1]);
-					r.w = std::stoi(clips[i+2]);
-					r.h = std::stoi(clips[i+3]);
-					tile.frame_clips.push_back(r);
-				}
-			}
-			tile_info.push_back(tile);
-		}
-	}
-	return tile_info;
-}
 
 std::vector<std::string> str_split(const std::string str, const char delim) {
 	std::vector<std::string> tokens;

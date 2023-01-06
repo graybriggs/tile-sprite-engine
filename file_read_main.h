@@ -9,9 +9,15 @@
 #include <string>
 #include <vector>
 
+class Tile;
+
 enum class TileType { STATC, ANIM };
 
 struct TileRawInfo {
+
+	TileRawInfo();
+	TileRawInfo(Tile t);
+
 	TileType tile_type;
 	std::string file_path;
 	int tilesheet_x, tilesheet_y;
@@ -25,5 +31,7 @@ std::string file_read(const std::string filename);
 std::vector<std::string> file_read_lines(const std::string filename);
 std::vector<TileRawInfo> file_read_main(const std::string filename);
 std::vector<std::string> str_split(const std::string str, const char delim);
+
+void write_tile_data(std::vector<Tile>& tiles);
 
 #endif

@@ -17,17 +17,16 @@
 
 int main(int argc, char* args[]) {
 
-	std::vector<GTE::TileRawInfo> test = GTE::file_read_main("tile_format_idea.txt");
-	//std::vector<TileRawInfo> tri = file_read_main();
-
 	auto device = createDevice(DriverType::SDL2, constants::SCREEN_WIDTH, constants::SCREEN_HEIGHT, false);
 	auto video = device->getVideoDriver();
-
 	
 
 	auto camera = std::make_unique<Camera>();
 	camera->setCameraType(Camera::CameraType::LOCK_ON);
 	camera->setScrollCollisionBounds(util::init_SDL_Rect(200, 150, constants::SCREEN_WIDTH - 200, constants::SCREEN_HEIGHT - 150));
+
+	std::vector<TileRawInfo> test = file_read_main("tile_format_idea.txt");
+	//std::vector<TileRawInfo> tri = file_read_main();
 
 	SDL_Rect r = util::init_SDL_Rect(100, 100, 100, 100);
 

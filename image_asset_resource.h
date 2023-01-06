@@ -26,6 +26,7 @@ public:
 
 	void loadSprite(const VideoDriver& driver, const std::string path); // re constructor
 
+	std::string getResourcePath() const;
 	SDL_Texture* getTexture() const;
 	//SDL_Rect getClipBox() const;
 	//void setClipBox(SDL_Rect r);
@@ -35,6 +36,7 @@ private:
 
 	int load_spritesheet(SDL_Renderer* renderer, SDL_Texture** sprite, std::string img_path);
 
+	std::string file_path;
 	//SDL_Rect clip_box; // apparently this doesn't work
 	SDL_Texture* texture;
 };

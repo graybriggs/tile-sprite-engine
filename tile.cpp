@@ -4,7 +4,8 @@
 
 
 Tile::Tile(ImageAssetResource* img, float x, float y, int w = constants::TILE_WIDTH, int h = constants::TILE_HEIGHT)
-	: Entity(img, util::Rect(x,y,w,h)),
+	: Entity(img, util::Rect(x, y, w, h)),
+	is_collidable(false),
 	can_animate(false),
 	animation_interval_time(0),
 	frame_number(0)
@@ -47,8 +48,27 @@ void Tile::update(float delta, float cur_time) {
 	}
 }
 
+void Tile::setCollidable(bool b) {
+	is_collidable = b;
+}
+bool Tile::getIsCollidable() const {
+	return is_collidable;
+}
+
 void Tile::setAnimatable(bool b) {
 	can_animate = b;
+}
+
+bool Tile::getCanAnimate() const {
+	return can_animate;
+}
+
+int Tile::getNumFrames() const {
+	return static_cast<int>(frame_clips.size());
+}
+
+int Tile::getFrameDelayTime() const {
+	return animation_interval_time;
 }
 
 void Tile::animationLoopInterval(float interval) {
@@ -69,6 +89,14 @@ void Tile::animAddFrameClip(SDL_Rect clip) {
 void Tile::forceFrameClip(SDL_Rect clip) {
 }
 
+std::vector<SDL_Rect> Tile::getFrameClips() {
+	return frame_clips;
+}
+
 SDL_Rect Tile::getImageClip() const {
 	return cur_frame_clip;
+}
+
+std::string Tile::getTileImagePath() {
+	return getImageAssetResource()->getResourcePath();
 }
