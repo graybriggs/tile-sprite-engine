@@ -71,10 +71,10 @@ std::vector<TileRawInfo> read_tile_file(const std::string filename) {
 			TileRawInfo raw_tile;
 
 			if (get_tile_type[0] == 's') { // probably should use a proper strcmp
-				raw_tile.tile_type == TileType::STATC;
+				raw_tile.tile_type = TileType::STATC;
 			}
 			else {
-				raw_tile.tile_type == TileType::ANIM;
+				raw_tile.tile_type = TileType::ANIM;
 			}
 
 			it++;
