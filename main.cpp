@@ -25,7 +25,7 @@ int main(int argc, char* args[]) {
 	camera->setCameraType(Camera::CameraType::LOCK_ON);
 	camera->setScrollCollisionBounds(util::init_SDL_Rect(200, 150, constants::SCREEN_WIDTH - 200, constants::SCREEN_HEIGHT - 150));
 
-	std::vector<TileRawInfo> test = file_read_main("tile_format_idea.txt");
+	std::vector<TileRawInfo> test = read_tile_file("tile_format_idea.txt");
 	//std::vector<TileRawInfo> tri = file_read_main();
 
 	SDL_Rect r = util::init_SDL_Rect(100, 100, 100, 100);
@@ -40,6 +40,8 @@ int main(int argc, char* args[]) {
 			tiles.push_back(std::make_unique<Tile>(&imr, j * 32.0f, i * 32.0f, 32, 32));
 		}
 	}
+
+	write_tile_data(tiles);
 
 	SDL_Point p;
 	p.x = 100;

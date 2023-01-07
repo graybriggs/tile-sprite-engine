@@ -5,6 +5,7 @@
 #include <SDL.h>
 
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "constants.h"
@@ -33,9 +34,9 @@ public:
 	void animationLoopInterval(float interval);
 	void animAddFrameClip(SDL_Rect clip);
 	void forceFrameClip(SDL_Rect clip);
-	std::vector<SDL_Rect> getFrameClips();
+	std::vector<SDL_Rect> getFrameClips() const;
 	SDL_Rect getImageClip() const;
-	std::string getTileImagePath();
+	std::string getTileImagePath() const;
 
 private:
 	bool is_collidable;

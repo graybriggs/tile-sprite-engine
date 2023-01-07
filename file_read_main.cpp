@@ -10,6 +10,7 @@
 #include <sstream>
 
 TileRawInfo::TileRawInfo() :
+	tile_type(TileType::STATC),
 	bb_x(0), bb_y(0), bb_w(0), bb_h(0),
 	tilesheet_x(0), tilesheet_y(0),
 	is_collide(0), no_frames(0), frame_delay(0),
@@ -17,7 +18,7 @@ TileRawInfo::TileRawInfo() :
 {
 }
 
-TileRawInfo::TileRawInfo(Tile t) {
+TileRawInfo::TileRawInfo(const Tile& t) {
 
 	file_path = t.getTileImagePath();
 
@@ -40,12 +41,11 @@ TileRawInfo::TileRawInfo(Tile t) {
 	is_collide = t.getIsCollidable(); // bool to int
 	no_frames = t.getNumFrames();
 	frame_delay = t.getFrameDelayTime();
-
 }
 
 
 
-std::vector<TileRawInfo> file_read_main(const std::string filename) {
+std::vector<TileRawInfo> read_tile_file(const std::string filename) {
 
 	std::vector<std::string> source = file_read_lines(filename);
 
@@ -113,13 +113,40 @@ std::vector<TileRawInfo> file_read_main(const std::string filename) {
 }
 
 
-void write_tile_data(std::vector<Tile>& tiles) {
+void write_tile_data(std::vector<std::unique_ptr<Tile>>& tiles) {
+
+	std::vector<TileRawInfo> raw_tiles;
 
 	for (auto& tile : tiles) {
-
-
-
+		Tile t = *(tile.get());
+		raw_tiles.push_back(TileRawInfo(t));
 	}
+
+	std::ofstream outfile("test_map.txt");
+
+	for (const auto& rt : raw_tiles) {
+
+		outfile << "{\n";
+		
+		if (rt.tile_type == TileType::STATC) {
+			outfile << "static\n";
+		}
+		else {
+			outfile << "anim\n";
+		}
+
+		outfile << "\"" << rt.file_path << "\" " <<
+		rt.bb_x << " " << rt.bb_y << " " << rt.bb_w << " " << rt.bb_h  << " " <<
+		rt.tilesheet_x << " " << rt.tilesheet_y << " " << rt.is_collide << " " <<
+		rt.no_frames << " " << rt.frame_delay << "\n";
+
+		for (const SDL_Rect& r : rt.frame_clips) {
+			outfile << r.x << " " << r.y << " " << r.w << " " << r.h << " ";
+		}
+		outfile << "}\n";
+	}
+
+	outfile.close();
 }
 
 /////////////////////

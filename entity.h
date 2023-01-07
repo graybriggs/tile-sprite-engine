@@ -19,8 +19,8 @@ public:
 	void setPosition(const float x, const float y);
 	void setPosition(const SDL_Rect);
 	void setPosition(const util::Rect);
-	util::Rect getBoundingBox();
-	SDL_Rect getSDL_Rect();
+	util::Rect getBoundingBox() const;
+	SDL_Rect getSDL_Rect() const;
 	void setBoundingBox(float x, float y, int w, int h);
 	void setBoundingBox(SDL_Rect box);
 	void setBoundingBox(util::Rect rect);

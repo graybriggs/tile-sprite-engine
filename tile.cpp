@@ -89,7 +89,7 @@ void Tile::animAddFrameClip(SDL_Rect clip) {
 void Tile::forceFrameClip(SDL_Rect clip) {
 }
 
-std::vector<SDL_Rect> Tile::getFrameClips() {
+std::vector<SDL_Rect> Tile::getFrameClips() const {
 	return frame_clips;
 }
 
@@ -97,6 +97,6 @@ SDL_Rect Tile::getImageClip() const {
 	return cur_frame_clip;
 }
 
-std::string Tile::getTileImagePath() {
+std::string Tile::getTileImagePath() const {
 	return getImageAssetResource()->getResourcePath();
 }

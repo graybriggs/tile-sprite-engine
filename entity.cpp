@@ -35,11 +35,11 @@ void Entity::setPosition(const util::Rect pos) {
 	bounding_box.x_pos = pos.y_pos;
 }
 
-util::Rect Entity::getBoundingBox() {
+util::Rect Entity::getBoundingBox() const {
 	return bounding_box;
 }
 
-SDL_Rect Entity::getSDL_Rect() {
+SDL_Rect Entity::getSDL_Rect() const {
 	return util::init_SDL_Rect(
 		bounding_box.x_pos,
 		bounding_box.y_pos,

@@ -6,6 +6,7 @@
 #include <SDL.h>
 
 #include <iterator>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -16,7 +17,7 @@ enum class TileType { STATC, ANIM };
 struct TileRawInfo {
 
 	TileRawInfo();
-	TileRawInfo(Tile t);
+	TileRawInfo(const Tile& t);
 
 	TileType tile_type;
 	std::string file_path;
@@ -29,9 +30,9 @@ struct TileRawInfo {
 
 std::string file_read(const std::string filename);
 std::vector<std::string> file_read_lines(const std::string filename);
-std::vector<TileRawInfo> file_read_main(const std::string filename);
+std::vector<TileRawInfo> read_tile_file(const std::string filename);
 std::vector<std::string> str_split(const std::string str, const char delim);
 
-void write_tile_data(std::vector<Tile>& tiles);
+void write_tile_data(std::vector<std::unique_ptr<Tile>>& tiles);
 
 #endif
