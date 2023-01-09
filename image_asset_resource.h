@@ -21,8 +21,8 @@ public:
 
 	ImageAssetResource(const ImageAssetResource& other) = delete;
 	ImageAssetResource& operator=(const ImageAssetResource& other) = delete;
-	ImageAssetResource(const ImageAssetResource&& other);
-	ImageAssetResource& operator=(ImageAssetResource&& other);
+	ImageAssetResource(const ImageAssetResource&& other) noexcept;
+	ImageAssetResource& operator=(ImageAssetResource&& other) noexcept;
 
 	void loadSprite(const VideoDriver& driver, const std::string path); // re constructor
 

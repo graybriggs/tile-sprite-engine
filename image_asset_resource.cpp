@@ -18,12 +18,12 @@ ImageAssetResource::~ImageAssetResource() {
 	SDL_DestroyTexture(texture);
 }
 
-ImageAssetResource::ImageAssetResource(const ImageAssetResource&& other) {
+ImageAssetResource::ImageAssetResource(const ImageAssetResource&& other) noexcept {
 	if (this != &other) {
 		texture = std::move(other.texture);
 	}
 }
-ImageAssetResource& ImageAssetResource::operator=(ImageAssetResource&& other) {
+ImageAssetResource& ImageAssetResource::operator=(ImageAssetResource&& other) noexcept {
 	if (this != &other) {
 		texture = std::move(other.texture);
 	}

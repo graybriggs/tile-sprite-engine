@@ -14,11 +14,14 @@
 
 typedef std::vector<SDL_Event> EventList;
 class ImageAssetResource;
+//class TileRawInfo;
+#include "file_read_main.h"
 
 class Tile : public Entity {
 public:
 
 	Tile(ImageAssetResource* img, float x, float y, int w, int h);
+	Tile(ImageAssetResource* iar, const TileRawInfo& rti);
 
 	void setBoundingBox(float x, float y, int w, int h);
 	void setBoundingBox(util::Rect rect);
@@ -39,12 +42,14 @@ public:
 	std::string getTileImagePath() const;
 
 private:
+	// data
 	bool is_collidable;
 	bool can_animate;
-	SDL_Rect cur_frame_clip;
 	std::vector<SDL_Rect> frame_clips;
 	int animation_interval_time;
 
+	// state
+	SDL_Rect cur_frame_clip;
 	int frame_number;
 	float last_time;
 };

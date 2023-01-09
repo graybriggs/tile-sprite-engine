@@ -3,7 +3,8 @@
 
 Entity::Entity(ImageAssetResource* iar, const util::Rect bb)
 	: image(iar),
-	bounding_box(bb)
+	bounding_box(bb),
+	image_clip_box({0,0,32,32})
 {
 }
 

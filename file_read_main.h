@@ -14,8 +14,11 @@ class Tile;
 
 enum class TileType { STATC, ANIM };
 
-struct TileRawInfo {
+// TileRawInfo contains raw information pertaining to the Tile and its properties
+// This is distinct from the Tile type which contains further information 
+// such as state.
 
+struct TileRawInfo {
 	TileRawInfo();
 	TileRawInfo(const Tile& t);
 

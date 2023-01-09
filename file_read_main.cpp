@@ -44,7 +44,10 @@ TileRawInfo::TileRawInfo(const Tile& t) {
 }
 
 
-
+// Reads tile format data from storage and converts it into
+// RawTileInfo format
+// Must be converted from RawTileInfo to Tile to use in engine
+//
 std::vector<TileRawInfo> read_tile_file(const std::string filename) {
 
 	std::vector<std::string> source = file_read_lines(filename);
@@ -59,7 +62,7 @@ std::vector<TileRawInfo> read_tile_file(const std::string filename) {
 		// skip comments
 		if (line[0] == '#')
 			continue;
-
+		
 		if (line[0] == '}')
 			continue;
 
