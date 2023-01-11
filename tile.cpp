@@ -20,22 +20,22 @@ Tile::Tile(ImageAssetResource* img, float x, float y, int w = constants::TILE_WI
 	//cur_frame_clip = 
 }
 
-Tile::Tile(ImageAssetResource* iar, const TileRawInfo& rti)
-	: Entity(iar, util::Rect(rti.bb_x, rti.bb_y, rti.bb_w, rti.bb_h)),
-	is_collidable(rti.is_collide),
+Tile::Tile(ImageAssetResource* iar, const TileRawInfo& tri)
+	: Entity(iar, util::Rect(tri.bb_x, tri.bb_y, tri.bb_w, tri.bb_h)),
+	is_collidable(tri.is_collide),
 	// turns out num_of_frames isn't required - can calculate based on clips given
-	animation_interval_time(rti.frame_delay),
-	frame_clips(rti.frame_clips)
+	animation_interval_time(tri.frame_delay),
+	frame_clips(tri.frame_clips)
 {
-	cur_frame_clip.x = rti.tilesheet_x;
-	cur_frame_clip.y = rti.tilesheet_y;
+	cur_frame_clip.x = tri.tilesheet_x;
+	cur_frame_clip.y = tri.tilesheet_y;
 
 	if (frame_clips.size() > 0)
 		can_animate = true;
 	else
 		can_animate = false;
 
-	setImageClip({ rti.tilesheet_x, rti.tilesheet_y, 32, 32 });
+	setImageClip({ tri.tilesheet_x, tri.tilesheet_y, 32, 32 });
 	frame_number = 0;
 	last_time = 0;
 	

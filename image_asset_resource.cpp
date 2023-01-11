@@ -7,7 +7,9 @@
 
 #include "video.h"
 
-ImageAssetResource::ImageAssetResource() {}
+ImageAssetResource::ImageAssetResource() :
+	texture(nullptr)
+{}
 
 ImageAssetResource::ImageAssetResource(const VideoDriver& driver, const std::string path) {
 	file_path = path;

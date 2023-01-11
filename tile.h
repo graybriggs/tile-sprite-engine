@@ -20,8 +20,8 @@ class ImageAssetResource;
 class Tile : public Entity {
 public:
 
-	Tile(ImageAssetResource* img, float x, float y, int w, int h);
-	Tile(ImageAssetResource* iar, const TileRawInfo& rti);
+	Tile(ImageAssetResource* iar, float x, float y, int w, int h);
+	Tile(ImageAssetResource* iar, const TileRawInfo& tri);
 
 	void setBoundingBox(float x, float y, int w, int h);
 	void setBoundingBox(util::Rect rect);

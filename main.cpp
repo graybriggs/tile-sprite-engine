@@ -26,7 +26,7 @@ int main(int argc, char* args[]) {
 	camera->setCameraType(Camera::CameraType::LOCK_ON);
 	camera->setScrollCollisionBounds(util::init_SDL_Rect(200, 150, constants::SCREEN_WIDTH - 200, constants::SCREEN_HEIGHT - 150));
 
-	std::vector<TileRawInfo> test = read_tile_file("test_map.txt");
+	//std::vector<TileRawInfo> test = read_tile_file("test_map.txt");
 
 	SDL_Rect r = util::init_SDL_Rect(100, 100, 100, 100);
 
@@ -34,12 +34,13 @@ int main(int argc, char* args[]) {
 	//auto imr = std::make_unique<ImageAssetResource>(video.get(), "./images/smb_tilesheet.bmp");
 	//auto imr2 = std::make_unique<ImageAssetResource>(video.get(), "./images/tile_anim.bmp");
 
-	ImageAssetResource imr(*video, "./images/smb_tilesheet.bmp");
-	ImageAssetResource imr2(*video, "./images/tile_anim.bmp");
+	auto iar = std::make_unique<ImageAssetResource>(*video, "./images/smb_tilesheet.bmp");
+	auto iar2 = std::make_unique<ImageAssetResource>(*video, "./images/tile_anim.bmp");
 
-	AssetResources asset_resources;
-	asset_resources.add_image_asset(&imr);
-	asset_resources.add_image_asset(&imr2);
+	AssetResourcesStore asset_resources;
+	asset_resources.add_image_asset(iar.get());
+	asset_resources.add_image_asset(iar2.get());
+	asset_resources.add_tile_map("test_map.txt");
 
 
 	std::vector<std::unique_ptr<Tile>> tiles;
@@ -89,7 +90,7 @@ int main(int argc, char* args[]) {
 		}
 		player->update(delta);
 
-		camera->moveTiles(device->getFrameEvents(), tiles, *player.get());
+		//camera->moveTiles(device->getFrameEvents(), tiles, *player.get());
 
 		video->beginScene();
 		
