@@ -6,11 +6,12 @@
 
 #include "asset_loader.h"
 #include "camera.h"
+#include "constants.h"
 #include "device.h"
 #include "file_read_main.h"
 #include "input.h"
+#include "level.h"
 #include "player.h"
-#include "tile.h"
 #include "utility.h"
 #include "video.h"
 
@@ -34,37 +35,6 @@ int main(int argc, char* args[]) {
 	//auto imr = std::make_unique<ImageAssetResource>(video.get(), "./images/smb_tilesheet.bmp");
 	//auto imr2 = std::make_unique<ImageAssetResource>(video.get(), "./images/tile_anim.bmp");
 
-	auto iar = std::make_unique<ImageAssetResource>(*video, "./images/smb_tilesheet.bmp");
-	auto iar2 = std::make_unique<ImageAssetResource>(*video, "./images/tile_anim.bmp");
-
-	AssetResourcesStore asset_resources;
-	asset_resources.add_image_asset(iar.get());
-	asset_resources.add_image_asset(iar2.get());
-	asset_resources.add_tile_map("test_map.txt");
-
-
-	std::vector<std::unique_ptr<Tile>> tiles;
-	load_tiles(asset_resources, tiles);
-
-	/*
-	for (const auto& tile : test) {
-		tiles.push_back(std::make_unique<Tile>(&imr, tile.bb_x, tile.bb_y, 32, 32));
-	}
-	*/
-	/*
-	for (int i = 0; i < 16; ++i) {
-		for (int j = 0; j < 32; ++j) {
-			tiles.push_back(std::make_unique<Tile>(&imr, j * 32.0f, i * 32.0f, 32, 32));
-		}
-	}
-	*/
-
-	//write_tile_data(tiles);
-
-	SDL_Point p;
-	p.x = 100;
-	p.y = 100;
-
 	double ang = 0.0;
 
 	float delta = (float)SDL_GetTicks();
@@ -74,7 +44,9 @@ int main(int argc, char* args[]) {
 	auto player = std::make_unique<Player>();
 	player->setScreenPosition(600, 425);
 
-	
+	Level cur_level;
+	cur_level.setup_level(video.get());
+
 
 	while (device->run()) {
 
@@ -85,31 +57,21 @@ int main(int argc, char* args[]) {
 
 		//tiles[100]->update(delta, cur_time);
 
-		for (auto& t : tiles) {
-			t->update(delta, cur_time);
-		}
+		cur_level.update_level(delta, cur_time);
+
+
 		player->update(delta);
+		cur_level.level_player_logic(player.get());
 
 		//camera->moveTiles(device->getFrameEvents(), tiles, *player.get());
 
 		video->beginScene();
 		
-
-		for (auto& t : tiles) {
-			video->drawSprite(t.get());
-			//video->drawRotatedSprite(t->getImageAssetResource(), t->getBoundingBox().toSDL_Rect(), 45, p);
-		}
-
+		cur_level.render_level(video.get());
 		video->drawRectangle(player->getBoundingBox(), 0xFF000000);
-
-		
 
 		//video->drawSprite(&anim_tile);
 		video->endScene();
-
-		++ang;
-		if (ang > 360.0)
-			ang = 0.0;
 
 		device->clearFrameEvents();
 	}

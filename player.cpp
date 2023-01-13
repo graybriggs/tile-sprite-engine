@@ -1,8 +1,9 @@
 
 #include "player.h"
 
-Player::Player() 
-	: Entity(nullptr, util::Rect(0, 0, 32, 64))
+Player::Player() :
+	Entity(nullptr, util::Rect(0, 0, 32, 64)),
+	state(PlayerStates::STOP)
 {
 }
 
