@@ -16,10 +16,7 @@ void Level::setup_level(VideoDriver* video) {
 	//asset_resources.add_image_asset(iar2.get());
 	asset_resources.add_tile_map("test_map.txt");
 
-
-	std::vector<std::unique_ptr<Tile>> tiles;
-	load_tiles(asset_resources, tiles);
-	
+	load_tiles(asset_resources, tiles);	
 }
 
 

@@ -27,26 +27,14 @@ int main(int argc, char* args[]) {
 	camera->setCameraType(Camera::CameraType::LOCK_ON);
 	camera->setScrollCollisionBounds(util::init_SDL_Rect(200, 150, constants::SCREEN_WIDTH - 200, constants::SCREEN_HEIGHT - 150));
 
-	//std::vector<TileRawInfo> test = read_tile_file("test_map.txt");
-
-	SDL_Rect r = util::init_SDL_Rect(100, 100, 100, 100);
-
-
-	//auto imr = std::make_unique<ImageAssetResource>(video.get(), "./images/smb_tilesheet.bmp");
-	//auto imr2 = std::make_unique<ImageAssetResource>(video.get(), "./images/tile_anim.bmp");
-
-	double ang = 0.0;
-
-	float delta = (float)SDL_GetTicks();
-	float cur_time = (float)SDL_GetTicks();
-
-
 	auto player = std::make_unique<Player>();
 	player->setScreenPosition(600, 425);
 
-	Level cur_level;
-	cur_level.setup_level(video.get());
+	auto current_level = std::make_unique<Level>();
+	current_level->setup_level(video.get());
 
+	float delta = (float)SDL_GetTicks();
+	float cur_time = (float)SDL_GetTicks();
 
 	while (device->run()) {
 
@@ -57,17 +45,15 @@ int main(int argc, char* args[]) {
 
 		//tiles[100]->update(delta, cur_time);
 
-		cur_level.update_level(delta, cur_time);
-
-
+		current_level->update_level(delta, cur_time);
 		player->update(delta);
-		cur_level.level_player_logic(player.get());
+		current_level->level_player_logic(player.get());
 
 		//camera->moveTiles(device->getFrameEvents(), tiles, *player.get());
 
 		video->beginScene();
 		
-		cur_level.render_level(video.get());
+		current_level->render_level(video.get());
 		video->drawRectangle(player->getBoundingBox(), 0xFF000000);
 
 		//video->drawSprite(&anim_tile);
