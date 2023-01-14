@@ -70,6 +70,7 @@ void Device::drop() {
 	SDL_Quit();
 }
 
+/*
 Texture* Device::getTexture(const std::string path) {
 	/*
 	SDL_Surface* texImg = SDL_LoadBMP(path.c_str());
@@ -84,9 +85,10 @@ Texture* Device::getTexture(const std::string path) {
 	tex->tex = texture;
 	SDL_FreeSurface(texImg);
 	return tex.get();
-	*/
+	
 	return nullptr;
 }
+*/
 
 Timer* Device::getTimer() {
 

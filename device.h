@@ -11,7 +11,6 @@
 
 class GUIEnvironment;
 class SceneManager;
-class Texture;
 class Timer;
 class VideoDriver;
 
@@ -31,7 +30,7 @@ public:
 	SceneManager* getSceneManager();
 	GUIEnvironment* getGUIEnvironment(); // this could have a font text based renderer
 	
-	Texture* getTexture(const std::string path);
+	//Texture* getTexture(const std::string path);
 	Timer* getTimer();
 
 	EventList& getFrameEvents();

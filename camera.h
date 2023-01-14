@@ -22,7 +22,8 @@ public:
 	Camera(CameraType = CameraType::LOCK_ON);
 
 	void setCameraType(CameraType);
-	void moveTiles(EventList& events, std::vector<std::unique_ptr<Tile>>& tiles, Player&);
+	//void moveTiles(EventList& events, std::vector<std::unique_ptr<Tile>>& tiles, Player&);
+	void moveTiles(std::vector<std::unique_ptr<Tile>>& tiles, const Player*);
 	void setScrollCollisionBounds(const SDL_Rect);
 
 

@@ -11,7 +11,7 @@ util::Rect::Rect(float x, float y, int w, int h)
 {
 }
 
-util::Rect util::Rect::getRect() {
+util::Rect util::Rect::getRect() const {
 	return util::Rect(this->x_pos, this->y_pos, this->w, this->h);
 }
 
@@ -22,7 +22,7 @@ void util::Rect::setRect(float x, float y, int width, int height) {
 	h = height;
 }
 
-SDL_Rect util::Rect::toSDL_Rect() {
+SDL_Rect util::Rect::toSDL_Rect() const {
 	SDL_Rect r;
 	r.x = static_cast<int>(x_pos);
 	r.y = static_cast<int>(y_pos);

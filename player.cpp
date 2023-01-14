@@ -1,6 +1,8 @@
 
 #include "player.h"
 
+#include "tile.h"
+
 Player::Player() :
 	Entity(nullptr, util::Rect(0, 0, 32, 64)),
 	state(PlayerStates::STOP)
@@ -69,17 +71,17 @@ void Player::update(const float delta) {
 		moveBy(X_MOVE_SPEED, 0.0f);
 	}
 	if (state == PlayerStates::UP) {
-		moveBy(0.0f, Y_MOVE_SPEED);
+		moveBy(0.0f, -Y_MOVE_SPEED);
 	}
 	if (state == PlayerStates::DOWN) {
-		moveBy(0.0f, -Y_MOVE_SPEED);
+		moveBy(0.0f, Y_MOVE_SPEED);
 	}
 	if (state == PlayerStates::STOP) {
 
 	}
 }
 
-util::Rect Player::getBoundingBox() {
+util::Rect Player::getBoundingBox() const {
 	return Entity::getBoundingBox();
 }
 
@@ -89,4 +91,12 @@ void Player::setBoundingBox(const util::Rect bb) {
 
 void Player::setScreenPosition(const int x, const int y) {
 	Entity::setPosition(x, y);
+}
+
+void Player::stop() {
+	state = PlayerStates::STOP;
+}
+
+void Player::tile_collide(const Tile& tile) {
+
 }

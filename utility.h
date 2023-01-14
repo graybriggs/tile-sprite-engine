@@ -12,9 +12,9 @@ namespace util {
 		float x_pos, y_pos;
 		int w, h;
 
-		util::Rect getRect();
+		util::Rect getRect() const;
 		void setRect(float x, float y, int w, int h);
-		SDL_Rect toSDL_Rect();
+		SDL_Rect toSDL_Rect() const ;
 	};
 
 	SDL_Rect init_SDL_Rect(int x, int y, int w, int h);

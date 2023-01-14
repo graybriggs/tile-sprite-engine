@@ -11,11 +11,13 @@
 
 typedef std::vector<SDL_Event> EventList;
 
+class Tile;
+
 class Player : public Entity {
 public:
 
-	const float X_MOVE_SPEED = 1.0f;
-	const float Y_MOVE_SPEED = 0.9f;
+	const float X_MOVE_SPEED = 0.5f;
+	const float Y_MOVE_SPEED = 0.25f;
 
 	Player();
 
@@ -23,9 +25,11 @@ public:
 	void update(const float delta);
 	// updateFrame(time);
 
-	util::Rect getBoundingBox();
+	util::Rect getBoundingBox() const;
 	void setBoundingBox(const util::Rect);
 	void setScreenPosition(const int x, const int y);
+	void stop();
+	void tile_collide(const Tile& tile);
 private:
 
 	enum class PlayerStates { STOP, STAND, LEFT, RIGHT, UP, DOWN, BACK };

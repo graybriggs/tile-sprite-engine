@@ -2,35 +2,20 @@
 #include "collision.h"
 
 
-bool aabb_collision(const SDL_Rect& A, const SDL_Rect& B) {
-
-	bool leftA, leftB;
-	bool rightA, rightB;
-	bool topA, topB;
-	bool bottomA, bottomB;
-
-	leftA = A.x;
-	rightA = A.x + A.w;
-	topA = A.y;
-	bottomA = A.y + A.h;
-
-	leftB = B.x;
-	rightB = B.x + B.w;
-	topB = B.y;
-	bottomB = B.y + B.h;
-
-	if (bottomA <= topB)
+bool aabb_collision(const SDL_Rect& one, const SDL_Rect& two) {
+	if (one.x + one.w < two.x) {
 		return false;
-
-	if (topA >= bottomB)
+	}
+	else if (one.x > two.x + two.w) {
 		return false;
-
-	if (rightA <= leftB)
+	}
+	else if (one.y + one.h < two.y) {
 		return false;
-
-	if (leftA >= rightB)
+	}
+	else if (one.y > two.y + two.h) {
 		return false;
-
-	return true;
-
+	}
+	else {
+		return true;
+	}
 }

@@ -23,10 +23,6 @@ int main(int argc, char* args[]) {
 	auto video = device->getVideoDriver();
 	
 
-	auto camera = std::make_unique<Camera>();
-	camera->setCameraType(Camera::CameraType::LOCK_ON);
-	camera->setScrollCollisionBounds(util::init_SDL_Rect(200, 150, constants::SCREEN_WIDTH - 200, constants::SCREEN_HEIGHT - 150));
-
 	auto player = std::make_unique<Player>();
 	player->setScreenPosition(600, 425);
 
@@ -43,13 +39,10 @@ int main(int argc, char* args[]) {
 		//input.moveTiles(device->getFrameEvents(), tiles);
 		player->handleInput(device->getFrameEvents());
 
-		//tiles[100]->update(delta, cur_time);
-
 		current_level->update_level(delta, cur_time);
 		player->update(delta);
 		current_level->level_player_logic(player.get());
 
-		//camera->moveTiles(device->getFrameEvents(), tiles, *player.get());
 
 		video->beginScene();
 		
