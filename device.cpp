@@ -99,7 +99,7 @@ Timer* Device::getTimer() {
 }
 
 
-std::unique_ptr<Device> createDevice(DriverType driverType, int width, int height, bool fullscreen) {
+std::unique_ptr<Device> createDevice(VideoDriverType driverType, int width, int height, bool fullscreen) {
 	
 	auto device = std::make_unique<Device>();
 	//Device* device = new Device;
@@ -107,7 +107,7 @@ std::unique_ptr<Device> createDevice(DriverType driverType, int width, int heigh
 	Uint32 init_flags = SDL_INIT_VIDEO | SDL_INIT_TIMER;
 		
 	if (device != nullptr) {
-		if (driverType == DriverType::SDL2) {
+		if (driverType == VideoDriverType::SDL2) {
 			SDL_Init(init_flags);
 
 			device->window = SDL_CreateWindow(

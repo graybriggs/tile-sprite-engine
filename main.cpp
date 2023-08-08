@@ -19,9 +19,8 @@
 
 int main(int argc, char* args[]) {
 
-	auto device = createDevice(DriverType::SDL2, constants::SCREEN_WIDTH, constants::SCREEN_HEIGHT, false);
+	auto device = createDevice(VideoDriverType::SDL2, constants::SCREEN_WIDTH, constants::SCREEN_HEIGHT, false);
 	auto video = device->getVideoDriver();
-	
 
 	auto player = std::make_unique<Player>();
 	player->setScreenPosition(600, 425);
@@ -42,7 +41,6 @@ int main(int argc, char* args[]) {
 		current_level->update_level(delta, cur_time);
 		player->update(delta);
 		current_level->level_player_logic(player.get());
-
 
 		video->beginScene();
 		

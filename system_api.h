@@ -2,7 +2,7 @@
 #ifndef SYSTEM_API_H
 #define SYSTEM_API_H
 
-enum class DriverType {
+enum class VideoDriverType {
 
 	SDL2,
 	SFML, // Nope.
