@@ -43,7 +43,7 @@ public:
 };
 
 
-std::unique_ptr<Device> createDevice(DriverType driverType, int screen_w, int screen_h, bool fullscreen);
+std::unique_ptr<Device> createDevice(VideoDriverType driverType, int screen_w, int screen_h, bool fullscreen);
 
 
 #endif

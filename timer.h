@@ -9,6 +9,7 @@
 class Timer {
 public:
 	std::clock_t getTime() const;
+	void setTime(std::clock_t c);
 
 private:
 	std::clock_t current_time;

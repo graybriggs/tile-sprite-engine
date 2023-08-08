@@ -8,9 +8,13 @@ std::clock_t Timer::getTime() const {
 	return current_time;
 }
 
+void Timer::setTime(std::clock_t c) {
+	current_time = c;
+}
 
 CallbackTimer::CallbackTimer(std::function<void()> func, int duration, bool repeated = false):
 	func(func),
+	active(false),
 	duration(duration),
 	repeated(repeated),
 	start_time(0),
@@ -53,5 +57,5 @@ void CallbackTimer::update(float dt) {
 }
 
 bool CallbackTimer::is_active() const {
-	return is_active;
+	return active;
 }
