@@ -57,11 +57,7 @@ void VideoDriver::drawRotatedSprite(const ImageAssetResource* img, const SDL_Rec
 
 void VideoDriver::drawRectangle(int x, int y, int w, int h, int colorkey) {
 
-	SDL_Rect rect;
-	rect.x = x;
-	rect.y = y;
-	rect.w = w;
-	rect.h = h;
+	SDL_Rect rect = { x, y, w, h };
 
 	//SDL_RenderDrawRect(renderer, &rect);
 	SDL_RenderFillRect(renderer, &rect);
