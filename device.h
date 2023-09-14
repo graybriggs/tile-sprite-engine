@@ -34,6 +34,7 @@ public:
 	Timer* getTimer();
 
 	EventList& getFrameEvents();
+	int get_current_time();
 
 	void clearFrameEvents();
 

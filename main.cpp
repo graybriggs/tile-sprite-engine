@@ -28,12 +28,12 @@ int main(int argc, char* args[]) {
 	auto current_level = std::make_unique<Level>();
 	current_level->setup_level(video.get());
 
-	float delta = (float)SDL_GetTicks();
-	float cur_time = (float)SDL_GetTicks();
+	float delta = device->get_current_time();
+	float cur_time = device->get_current_time();
 
 	while (device->run()) {
 
-		cur_time = (float)SDL_GetTicks();
+		cur_time = device->get_current_time();
 
 		//input.moveTiles(device->getFrameEvents(), tiles);
 		player->handleInput(device->getFrameEvents());

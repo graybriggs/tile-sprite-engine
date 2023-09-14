@@ -93,9 +93,14 @@ Texture* Device::getTexture(const std::string path) {
 Timer* Device::getTimer() {
 
 	auto timer = std::make_unique<Timer>();
-	timer->current_time = std::clock();
+	//timer->current_time = std::clock();
+	timer->setTime(std::clock());
 
 	return timer.get();
+}
+
+int Device::get_current_time() {
+	return SDL_GetTicks();
 }
 
 
