@@ -1,5 +1,4 @@
 
-#include <cstring> // memset
 #include <cmath>
 #include <memory>
 #include <vector>
@@ -23,20 +22,20 @@ int main(int argc, char* args[]) {
 	auto video = device->getVideoDriver();
 
 	auto player = std::make_unique<Player>();
-	player->setScreenPosition(600, 425);
+	player->set_relative_position(600, 425);
 
 	auto current_level = std::make_unique<Level>();
 	current_level->setup_level(video.get());
 
-	float delta = device->get_current_time();
-	float cur_time = device->get_current_time();
+	float delta = static_cast<float>(device->get_current_time());
+	float cur_time = static_cast<float>(device->get_current_time());
 
 	while (device->run()) {
 
-		cur_time = device->get_current_time();
+		cur_time = static_cast<float>(device->get_current_time());
 
 		//input.moveTiles(device->getFrameEvents(), tiles);
-		player->handleInput(device->getFrameEvents());
+		//player->handleInput(device->getFrameEvents());
 
 		current_level->update_level(delta, cur_time);
 		player->update(delta);

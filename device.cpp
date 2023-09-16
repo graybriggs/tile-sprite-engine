@@ -4,6 +4,7 @@
 #include "device.h"
 #include "system_api.h"
 #include "image_asset_resource.h"
+#include "input.h"
 #include "timer.h"
 #include "video.h"
 
@@ -27,8 +28,20 @@ void Device::clearFrameEvents() {
 
 bool Device::run() {
 	// remember to // clearFrameEvents() at the end of every frame.
-	SDL_Event event;
+	
+	input_pump_events();
+
+	if (input_query_state(KeyCode::INPUT_K_ESC)) {
+		return false;
+	}
+	if (event.type == SDL_QUIT) {
+		return false;
+	}
+
+	/*
 	while (SDL_PollEvent(&event)) {
+
+		// push_event_list();
 
 		frame_events.push_back(event);
 
@@ -40,8 +53,8 @@ bool Device::run() {
 					return false;
 			}
 		}
-
 	}
+	*/
 
 	return true;
 }
@@ -64,6 +77,62 @@ SceneManager* Device::getSceneManager() {
 GUIEnvironment* Device::getGUIEnvironment() {
 	// Not implemented
 	return nullptr;
+}
+
+void Device::input_pump_events() {
+	//SDL_Event event;
+	while (SDL_PollEvent(&event)) {
+		if (event.type == SDLK_DOWN) {
+			switch (event.key.keysym.sym) {
+			case SDLK_UP:
+				input_set_button_state(KeyCode::INPUT_K_UP);
+				break;
+			case SDLK_DOWN:
+				input_set_button_state(KeyCode::INPUT_K_DOWN);
+				break;
+			case SDLK_LEFT:
+				input_set_button_state(KeyCode::INPUT_K_LEFT);
+				break;
+			case SDLK_RIGHT:
+				input_set_button_state(KeyCode::INPUT_K_RIGHT);
+				break;
+			case SDLK_SPACE:
+				input_set_button_state(KeyCode::INPUT_K_SPACE);
+				break;
+			case SDLK_RETURN:
+				input_set_button_state(KeyCode::INPUT_K_ENTER);
+				break;
+			case SDLK_ESCAPE:
+				input_set_button_state(KeyCode::INPUT_K_ESC);
+				break;
+			}
+		}
+		else if (event.type == SDLK_UP) {
+			switch (event.key.keysym.sym) {
+			case SDLK_UP:
+				input_release_button_state(KeyCode::INPUT_K_UP);
+				break;
+			case SDLK_DOWN:
+				input_release_button_state(KeyCode::INPUT_K_DOWN);
+				break;
+			case SDLK_LEFT:
+				input_release_button_state(KeyCode::INPUT_K_LEFT);
+				break;
+			case SDLK_RIGHT:
+				input_release_button_state(KeyCode::INPUT_K_RIGHT);
+				break;
+			case SDLK_SPACE:
+				input_release_button_state(KeyCode::INPUT_K_SPACE);
+				break;
+			case SDLK_RETURN:
+				input_release_button_state(KeyCode::INPUT_K_ENTER);
+				break;
+			case SDLK_ESCAPE:
+				input_release_button_state(KeyCode::INPUT_K_ESC);
+				break;
+			}
+		}
+	}
 }
 
 void Device::drop() {
