@@ -4,11 +4,7 @@
 #include "utility.h"
 #include "video.h"
 
-#include <SDL.h>
-
-VideoDriver::~VideoDriver() {
-	SDL_DestroyRenderer(renderer);
-}
+#include <SDL2/SDL.h>
 
 void VideoDriver::beginScene() {
 	SDL_RenderClear(renderer);
@@ -66,4 +62,8 @@ void VideoDriver::drawRectangle(int x, int y, int w, int h, int colorkey) {
 void VideoDriver::drawRectangle(util::Rect rect, int colorkey) {
 	
 	drawRectangle((int)rect.x_pos, (int)rect.y_pos, rect.w, rect.h, colorkey);
+}
+
+void VideoDriver::destory() {
+	SDL_DestroyRenderer(renderer);
 }

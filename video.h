@@ -1,17 +1,16 @@
 #pragma once
 
-#include "SDL.h"
+#include <SDL2/SDL.h>
+
+#include "utility.h"
 
 class Entity;
 class ImageAssetResource;
 class Texture;
 
-#include "utility.h"
 
 class VideoDriver {
 public:
-
-	~VideoDriver();
 
 	void beginScene();
 	void beginScene(int r, int g, int b); // later
@@ -26,6 +25,8 @@ public:
 	void drawRectangle(util::Rect rect, int colorkey);
 	void drawRotatedSprite(const ImageAssetResource*, const SDL_Rect pos, const double angle, const SDL_Point rot_point);
 
+	void destory();
+	
 public:
 	SDL_Renderer* renderer;
 };
