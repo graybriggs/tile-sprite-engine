@@ -64,13 +64,16 @@ GUIEnvironment* Device::getGUIEnvironment() {
 
 bool Device::input_pump_events() {
 	
-	//SDL_Event event;
 	while (SDL_PollEvent(&event)) {
 		if (event.type == SDL_QUIT) {
 			return false;
 		}
-		if (event.type == SDLK_DOWN) {
-			switch (event.key.keysym.sym) {
+		if (event.type == SDL_KEYDOWN) {
+			std::cout << "key press" << std::endl;
+
+			int code = event.key.keysym.sym;
+
+			switch (code) {
 			case SDLK_UP:
 				input_set_button_state(KeyCode::INPUT_K_UP);
 				break;
@@ -94,8 +97,11 @@ bool Device::input_pump_events() {
 				break;
 			}
 		}
-		else if (event.type == SDLK_UP) {
-			switch (event.key.keysym.sym) {
+		else if (event.type == SDL_KEYUP) {
+
+			int code = event.key.keysym.sym;
+
+			switch (code) {
 			case SDLK_UP:
 				input_release_button_state(KeyCode::INPUT_K_UP);
 				break;
