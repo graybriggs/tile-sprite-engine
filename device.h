@@ -1,5 +1,3 @@
-#ifndef DEVICE_H
-#define DEVICE_H
 #pragma once
 
 #include <string>
@@ -7,7 +5,7 @@
 
 #include "system_api.h"
 
-#include "SDL.h"
+#include <SDL2/SDL.h>
 
 class GUIEnvironment;
 class SceneManager;
@@ -21,7 +19,7 @@ public:
 
 	~Device();
 
-	void setWindowCaption(std::string s);
+	void setWindowCaption(const std::string& s);
 
 	bool run();
 	void drop();
@@ -30,6 +28,8 @@ public:
 	SceneManager* getSceneManager();
 	GUIEnvironment* getGUIEnvironment(); // this could have a font text based renderer
 	
+	bool input_pump_events();
+
 	//Texture* getTexture(const std::string path);
 	Timer* getTimer();
 
@@ -41,10 +41,9 @@ public:
 public:
 	EventList frame_events;
 	SDL_Window* window;
+	SDL_Event event;
 };
 
 
 std::unique_ptr<Device> createDevice(VideoDriverType driverType, int screen_w, int screen_h, bool fullscreen);
 
-
-#endif

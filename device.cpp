@@ -16,8 +16,13 @@ Device::~Device() {
 	SDL_DestroyWindow(window);
 }
 
-void Device::setWindowCaption(std::string s) {
+void Device::setWindowCaption(const std::string& caption) {
 
+	std::string version = " ver. " + std::to_string(config::major_version)
+				+ "." + std::to_string(config::minor_version);
+		std::string full_name = caption + version;
+
+	SDL_SetWindowTitle(window, full_name.c_str());
 }
 
 EventList& Device::getFrameEvents() {
