@@ -10,6 +10,7 @@
 #include "video.h"
 
 #include <SDL2/SDL.h>
+#include <iostream>
 
 Device::~Device() {
 	SDL_DestroyWindow(window);
@@ -32,32 +33,7 @@ bool Device::run() {
 	
 	bool quit = input_pump_events();
 
-	if (input_query_state(KeyCode::INPUT_K_ESC)) {
-		return false;
-	}
-	// if (event.type == SDL_QUIT) {
-	// 	return false;
-	// }
-
-	/*
-	while (SDL_PollEvent(&event)) {
-
-		// push_event_list();
-
-		frame_events.push_back(event);
-
-		for (auto& e : frame_events) {
-			if (e.type == SDL_QUIT)
-				return false;
-			if (e.type == SDL_KEYDOWN) {
-				if (e.key.keysym.sym == SDLK_ESCAPE)
-					return false;
-			}
-		}
-	}
-	*/
-
-	return true;
+	return quit;
 }
 
 
@@ -83,12 +59,12 @@ GUIEnvironment* Device::getGUIEnvironment() {
 
 bool Device::input_pump_events() {
 	
-	SDL_Event event;
+	//SDL_Event event;
 	while (SDL_PollEvent(&event)) {
+		if (event.type == SDL_QUIT) {
+			return false;
+		}
 		if (event.type == SDLK_DOWN) {
-			if (event.type == SDL_QUIT) {
-				return true;
-			}
 			switch (event.key.keysym.sym) {
 			case SDLK_UP:
 				input_set_button_state(KeyCode::INPUT_K_UP);
@@ -139,7 +115,7 @@ bool Device::input_pump_events() {
 			}
 		}
 	}
-	return false;
+	return true;
 }
 
 void Device::drop() {
