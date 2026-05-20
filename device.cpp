@@ -1,6 +1,7 @@
 #include <memory>
 #include <utility>
 
+#include "config.h"
 #include "device.h"
 #include "system_api.h"
 #include "image_asset_resource.h"
@@ -8,7 +9,7 @@
 #include "timer.h"
 #include "video.h"
 
-#include "SDL.h"
+#include <SDL2/SDL.h>
 
 Device::~Device() {
 	SDL_DestroyWindow(window);
@@ -29,14 +30,14 @@ void Device::clearFrameEvents() {
 bool Device::run() {
 	// remember to // clearFrameEvents() at the end of every frame.
 	
-	input_pump_events();
+	bool quit = input_pump_events();
 
 	if (input_query_state(KeyCode::INPUT_K_ESC)) {
 		return false;
 	}
-	if (event.type == SDL_QUIT) {
-		return false;
-	}
+	// if (event.type == SDL_QUIT) {
+	// 	return false;
+	// }
 
 	/*
 	while (SDL_PollEvent(&event)) {
@@ -79,10 +80,15 @@ GUIEnvironment* Device::getGUIEnvironment() {
 	return nullptr;
 }
 
-void Device::input_pump_events() {
-	//SDL_Event event;
+
+bool Device::input_pump_events() {
+	
+	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
 		if (event.type == SDLK_DOWN) {
+			if (event.type == SDL_QUIT) {
+				return true;
+			}
 			switch (event.key.keysym.sym) {
 			case SDLK_UP:
 				input_set_button_state(KeyCode::INPUT_K_UP);
@@ -133,6 +139,7 @@ void Device::input_pump_events() {
 			}
 		}
 	}
+	return false;
 }
 
 void Device::drop() {
@@ -184,8 +191,12 @@ std::unique_ptr<Device> createDevice(VideoDriverType driverType, int width, int 
 		if (driverType == VideoDriverType::SDL2) {
 			SDL_Init(init_flags);
 
+			std::string version = " ver. " + std::to_string(config::major_version)
+				 + "." + std::to_string(config::minor_version);
+			std::string full_name = config::app_name + version;
+
 			device->window = SDL_CreateWindow(
-				"",
+				full_name.c_str(),
 				SDL_WINDOWPOS_UNDEFINED,
 				SDL_WINDOWPOS_UNDEFINED,
 				width,
