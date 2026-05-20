@@ -64,6 +64,10 @@ void VideoDriver::drawRectangle(util::Rect rect, int colorkey) {
 	drawRectangle((int)rect.x_pos, (int)rect.y_pos, rect.w, rect.h, colorkey);
 }
 
+void VideoDriver::drawRotatedSprite(const ImageAssetResource*, const SDL_Rect pos, const double angle, const SDL_Point rot_point) {
+	
+}
+
 void VideoDriver::destory() {
 	SDL_DestroyRenderer(renderer);
 }
