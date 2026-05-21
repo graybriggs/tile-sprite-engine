@@ -7,10 +7,12 @@
 #include <SDL2/SDL.h>
 
 void VideoDriver::beginScene() {
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 }
 
 void VideoDriver::beginScene(int r, int g, int b) {
+	SDL_SetRenderDrawColor(renderer, r, g, b, 255);
 	SDL_RenderClear(renderer);
 }
 
@@ -51,21 +53,24 @@ void VideoDriver::drawRotatedSprite(const ImageAssetResource* img, const SDL_Rec
 }
 */
 
-void VideoDriver::drawRectangle(int x, int y, int w, int h, int colorkey) {
+void VideoDriver::setDrawColor(int r, int g, int b, int a) {
+	SDL_SetRenderDrawColor(renderer, r, g, b, a);
+}
+
+void VideoDriver::drawRectangle(int x, int y, int w, int h) {
 
 	SDL_Rect rect = { x, y, w, h };
-
-	//SDL_RenderDrawRect(renderer, &rect);
+	
 	SDL_RenderFillRect(renderer, &rect);
 }
 
-void VideoDriver::drawRectangle(util::Rect rect, int colorkey) {
+void VideoDriver::drawRectangle(util::Rect rect) {
 	
-	drawRectangle((int)rect.x_pos, (int)rect.y_pos, rect.w, rect.h, colorkey);
+	drawRectangle((int)rect.x_pos, (int)rect.y_pos, rect.w, rect.h);
 }
 
 void VideoDriver::drawRotatedSprite(const ImageAssetResource*, const SDL_Rect pos, const double angle, const SDL_Point rot_point) {
-	
+
 }
 
 void VideoDriver::destory() {
