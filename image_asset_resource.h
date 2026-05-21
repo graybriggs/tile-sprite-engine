@@ -3,7 +3,7 @@
 #define TEXTURE_H
 #pragma once
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 #include <memory>
 #include <string>
@@ -16,7 +16,7 @@ public:
 	// note: write copy/move/etc constructors
 
 	ImageAssetResource();
-	ImageAssetResource(const VideoDriver& driver, const std::string path);
+	ImageAssetResource(const VideoDriver& driver, const std::string& path);
 	~ImageAssetResource();
 
 	ImageAssetResource(const ImageAssetResource& other) = delete;
@@ -24,7 +24,7 @@ public:
 	ImageAssetResource(const ImageAssetResource&& other) noexcept;
 	ImageAssetResource& operator=(ImageAssetResource&& other) noexcept;
 
-	void loadSprite(const VideoDriver& driver, const std::string path); // re constructor
+	void loadSprite(const VideoDriver& driver, const std::string& path); // re constructor
 
 	std::string getResourcePath() const;
 	SDL_Texture* getTexture() const;
@@ -34,7 +34,7 @@ public:
 
 private:
 
-	int load_spritesheet(SDL_Renderer* renderer, SDL_Texture** sprite, std::string img_path);
+	int load_spritesheet(SDL_Renderer* renderer, SDL_Texture** sprite, const std::string& img_path);
 
 	std::string file_path;
 	//SDL_Rect clip_box; // apparently this doesn't work

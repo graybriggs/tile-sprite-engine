@@ -2,6 +2,7 @@
 #include "image_asset_resource.h"
 
 
+#include <iostream>
 #include <stdexcept>
 #include <utility>
 
@@ -11,7 +12,7 @@ ImageAssetResource::ImageAssetResource() :
 	texture(nullptr)
 {}
 
-ImageAssetResource::ImageAssetResource(const VideoDriver& driver, const std::string path) {
+ImageAssetResource::ImageAssetResource(const VideoDriver& driver, const std::string& path) {
 	file_path = path;
 	loadSprite(driver, path);
 }
@@ -34,12 +35,15 @@ ImageAssetResource& ImageAssetResource::operator=(ImageAssetResource&& other) no
 
 
 
-int ImageAssetResource::load_spritesheet(SDL_Renderer* renderer, SDL_Texture** spritesheet, std::string img_path) {
+int ImageAssetResource::load_spritesheet(SDL_Renderer* renderer, SDL_Texture** spritesheet, const std::string& img_path) {
 
 	SDL_Surface* surface_img = SDL_LoadBMP(img_path.c_str());
 	if (surface_img == nullptr) {
-		fprintf(stderr, "Error loading image file");
+		std::cout << "Error loading image: " + img_path << std::endl;
 		throw - 1;
+	}
+	else {
+		std::cout << "Loaded: " + img_path << std::endl;
 	}
 
 	// specify a color key for transparent pixels - here it's 0xFF00FF - bright pink
@@ -55,7 +59,7 @@ int ImageAssetResource::load_spritesheet(SDL_Renderer* renderer, SDL_Texture** s
 	return 0;
 }
 
-void ImageAssetResource::loadSprite(const VideoDriver& driver, std::string path) {
+void ImageAssetResource::loadSprite(const VideoDriver& driver, const std::string& path) {
 
 	load_spritesheet(driver.getRenderer(), &texture, path);
 }
