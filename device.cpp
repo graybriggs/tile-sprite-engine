@@ -162,8 +162,8 @@ Timer* Device::getTimer() {
 	return timer.get();
 }
 
-int Device::get_current_time() {
-	return SDL_GetTicks();
+float Device::get_current_time() {
+	return static_cast<float>(SDL_GetTicks());
 }
 
 

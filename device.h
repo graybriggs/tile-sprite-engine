@@ -22,6 +22,7 @@ public:
 	void setWindowCaption(const std::string& s);
 
 	bool run();
+	void video_cleanup();
 	void drop();
 
 	std::unique_ptr<VideoDriver> getVideoDriver();
@@ -34,7 +35,7 @@ public:
 	Timer* getTimer();
 
 	EventList& getFrameEvents();
-	int get_current_time();
+	float get_current_time();
 
 	void clearFrameEvents();
 
