@@ -4,7 +4,7 @@
 #include "tile.h"
 
 
-Tile::Tile(ImageAssetResource* img, float x, float y, int w = constants::TILE_WIDTH, int h = constants::TILE_HEIGHT)
+Tile::Tile(ImageAssetResource* img, float x, float y, int w = globals::TILE_WIDTH, int h = globals::TILE_HEIGHT)
 	: Entity(img, util::Rect(x, y, w, h)),
 	is_collidable(false),
 	can_animate(false),

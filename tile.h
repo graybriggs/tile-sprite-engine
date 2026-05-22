@@ -2,13 +2,13 @@
 #ifndef TILE_H
 #define TILE_H
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 #include <memory>
 #include <string>
 #include <vector>
 
-#include "constants.h"
+#include "globals.h"
 #include "entity.h"
 #include "utility.h"
 
