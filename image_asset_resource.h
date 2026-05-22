@@ -16,7 +16,7 @@ public:
 	// note: write copy/move/etc constructors
 
 	ImageAssetResource();
-	ImageAssetResource(const VideoDriver& driver, const std::string& path);
+	ImageAssetResource(const VideoDriver* driver, const std::string& path);
 	~ImageAssetResource();
 
 	ImageAssetResource(const ImageAssetResource& other) = delete;
@@ -24,7 +24,7 @@ public:
 	ImageAssetResource(const ImageAssetResource&& other) noexcept;
 	ImageAssetResource& operator=(ImageAssetResource&& other) noexcept;
 
-	void loadSprite(const VideoDriver& driver, const std::string& path); // re constructor
+	void loadSprite(const VideoDriver* driver, const std::string& path); // re constructor
 
 	std::string getResourcePath() const;
 	SDL_Texture* getTexture() const;

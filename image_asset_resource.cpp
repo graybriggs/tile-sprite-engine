@@ -12,7 +12,7 @@ ImageAssetResource::ImageAssetResource() :
 	texture(nullptr)
 {}
 
-ImageAssetResource::ImageAssetResource(const VideoDriver& driver, const std::string& path) {
+ImageAssetResource::ImageAssetResource(const VideoDriver* driver, const std::string& path) {
 	file_path = path;
 	loadSprite(driver, path);
 }
@@ -59,9 +59,9 @@ int ImageAssetResource::load_spritesheet(SDL_Renderer* renderer, SDL_Texture** s
 	return 0;
 }
 
-void ImageAssetResource::loadSprite(const VideoDriver& driver, const std::string& path) {
+void ImageAssetResource::loadSprite(const VideoDriver* driver, const std::string& path) {
 
-	load_spritesheet(driver.getRenderer(), &texture, path);
+	load_spritesheet(driver->getRenderer(), &texture, path);
 }
 
 std::string ImageAssetResource::getResourcePath() const {
