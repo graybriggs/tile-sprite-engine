@@ -59,7 +59,7 @@ std::vector<TileRawInfo> read_tile_file(const std::string filename) {
 
 		std::string line = *it;
 
-		// skip comments
+		// this should not evaluate to true based on the file_read_lines function
 		if (line[0] == '#')
 			continue;
 		
@@ -69,12 +69,14 @@ std::vector<TileRawInfo> read_tile_file(const std::string filename) {
 		if (line[0] == '{') {
 			it++;
 			
+			auto toks = strtok(line, ',');
+
 			std::string get_tile_type = *it;
 						
 			TileRawInfo raw_tile;
 
 			if (get_tile_type[0] == 's') { // probably should use a proper strcmp
-				raw_tile.tile_type = TileType::STATC;
+				raw_tile.tile_type = TileType::STATIC;
 			}
 			else {
 				raw_tile.tile_type = TileType::ANIM;
@@ -131,7 +133,7 @@ void write_tile_data(std::vector<std::unique_ptr<Tile>>& tiles) {
 
 		outfile << "{\n";
 		
-		if (rt.tile_type == TileType::STATC) {
+		if (rt.tile_type == TileType::STATIC) {
 			outfile << "static\n";
 		}
 		else {
@@ -177,7 +179,9 @@ std::vector<std::string> file_read_lines(const std::string filename) {
 	std::string input;
 
 	while (std::getline(ifs, input)) {
-		data.push_back(input);
+		if (input[0] != '0') {
+			data.push_back(input);
+		}
 	}
 	return data;
 }
@@ -196,4 +200,24 @@ std::vector<std::string> str_split(const std::string str, const char delim) {
 	}
 	tokens.push_back(temp);
 	return tokens;
+}
+
+
+std::vector<std::string> strtok(const std::string& str, const char delim) {
+
+    if (std::size(str) == 0)
+        return std::vector<std::string>(0);
+
+    std::vector<std::string> tokens;
+    std::string temp = "";
+    for (int i = 0; i < std::size(str); i++) {
+        if (str[i] == delim) {
+            tokens.push_back(temp);
+            temp = "";
+        }
+        else
+            temp += str[i];
+    }
+    tokens.push_back(temp);
+    return tokens;
 }

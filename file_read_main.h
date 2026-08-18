@@ -1,9 +1,6 @@
 #pragma once
-#ifndef FILE_READ_MAIN_H
-#define FILE_READ_MAIN_H
 
-
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 #include <iterator>
 #include <memory>
@@ -12,7 +9,7 @@
 
 class Tile;
 
-enum class TileType { STATC, ANIM };
+enum class TileType { STATIC, ANIM };
 
 // TileRawInfo contains raw information pertaining to the Tile and its properties
 // This is distinct from the Tile type which contains further information 
@@ -37,5 +34,5 @@ std::vector<TileRawInfo> read_tile_file(const std::string filename);
 std::vector<std::string> str_split(const std::string str, const char delim);
 
 void write_tile_data(std::vector<std::unique_ptr<Tile>>& tiles);
+std::vector<std::string> strtok(const std::string& str, const char delim);
 
-#endif
