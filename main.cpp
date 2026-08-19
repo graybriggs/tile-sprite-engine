@@ -1,57 +1,121 @@
 
 #include <cmath>
 #include <memory>
+#include <iostream>
 #include <vector>
 
 #include "asset_loader.h"
 #include "camera.h"
-#include "constants.h"
+#include "globals.h"
 #include "device.h"
 #include "file_read_main.h"
+#include "image_asset_resource.h"
 #include "input.h"
 #include "level.h"
 #include "player.h"
+#include "tile.h"
 #include "utility.h"
 #include "video.h"
 
-#include "image_asset_resource.h"
+//#include "image_asset_resource.h"
 
 int main(int argc, char* args[]) {
 
-	auto device = createDevice(VideoDriverType::SDL2, constants::SCREEN_WIDTH, constants::SCREEN_HEIGHT, false);
+
+	auto s = file_read("./test_map.txt");
+	std::cout << s << std::endl;
+	auto v = file_read_lines(s);
+	auto tri = read_tile_file("./test_map.txt");
+
+
+
+	auto device = createDevice(VideoDriverType::SDL2, globals::SCREEN_WIDTH, globals::SCREEN_HEIGHT, false);
 	auto video = device->getVideoDriver();
 
 	auto player = std::make_unique<Player>();
-	player->set_relative_position(600, 425);
+	//player->set_relative_position(600, 425);
 
-	auto current_level = std::make_unique<Level>();
-	current_level->setup_level(video.get());
+	//auto current_level = std::make_unique<Level>();
+	//current_level->setup_level(video.get());
 
-	float delta = static_cast<float>(device->get_current_time());
-	float cur_time = static_cast<float>(device->get_current_time());
+	auto delta = device->get_current_time();
+	auto cur_time = device->get_current_time();
+
+	std::string ts_path = "./images/smb_tilesheet.bmp";
+	auto iar = std::make_unique<ImageAssetResource>(video.get(), ts_path);
+
+	/// test here
+
+
+
+	//auto rti = tri[0];
+	//Tile test_read_tile(iar.get(), rti.bb_x, rti.bb_y, rti.bb_w, rti.bb_h);
+	////
+
+
+	Tile tile(iar.get(), 256, 256, 32, 32);
+	tile.setImageClip(SDL_Rect{0 ,0,32,32});
+
+	Tile collision_tile(iar.get(), 128, 256, 32, 32);
+	collision_tile.setImageClip(SDL_Rect{64,0,32,32});
+	collision_tile.setCollidable(true);
+
+
+	std::vector<Tile> tiles {tile, collision_tile };
+	//tiles.push_back(test_read_tile);
+	for (auto rti : tri) {
+		Tile test_read_tile(iar.get(), rti.bb_x, rti.bb_y, rti.bb_w, rti.bb_h);
+		SDL_Rect img_clip{rti.tilesheet_x, rti.tilesheet_y, 32, 32};
+		test_read_tile.setImageClip(img_clip);
+		if (rti.is_collide) {
+			test_read_tile.setCollidable(true);
+			std::cout << "setColliadable(true);" << std::endl;
+		}
+		tiles.push_back(test_read_tile);
+	}
 
 	while (device->run()) {
 
-		cur_time = static_cast<float>(device->get_current_time());
+		cur_time = device->get_current_time();
 
 		//input.moveTiles(device->getFrameEvents(), tiles);
 		//player->handleInput(device->getFrameEvents());
-
-		current_level->update_level(delta, cur_time);
+		device->input_pump_events();
+		player->handleInput();
 		player->update(delta);
-		current_level->level_player_logic(player.get());
+		//current_level->update_level(delta, cur_time);
+		//current_level->level_player_logic(player.get());
+
+		for (auto t : tiles) {
+			if (t.getIsCollidable()) {
+				player->tile_collide(tile);
+			}
+		}
+		
 
 		video->beginScene();
 		
-		current_level->render_level(video.get());
-		video->drawRectangle(player->getBoundingBox(), 0xFF000000);
-
+		//current_level->render_level(video.get());
+		video->setDrawColor(0, 0, 255, 255);
+		video->setDrawColor(42, 69, 1, 255);
+		video->drawRectangle(100, 100, 64, 64);
 		//video->drawSprite(&anim_tile);
+		
+		for (auto t : tiles) {
+			video->drawSprite(&t);
+		}
+
+		//video->drawSprite(&tile);
+		//video->drawSprite(&collision_tile);
+		
+		video->drawRectangle(player->getBoundingBox());
+
 		video->endScene();
 
-		device->clearFrameEvents();
+		//device->clearFrameEvents();
 	}
 
+	video->destory();
 	device->drop();
 
 	return 0;
