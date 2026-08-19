@@ -3,6 +3,7 @@
 #include "tile.h"
 
 #include <algorithm>
+#include <cstring>
 #include <fstream>
 #include <memory>
 #include <stdexcept>
@@ -10,7 +11,7 @@
 #include <sstream>
 
 TileRawInfo::TileRawInfo() :
-	tile_type(TileType::STATC),
+	tile_type(TileType::STATIC),
 	bb_x(0), bb_y(0), bb_w(0), bb_h(0),
 	tilesheet_x(0), tilesheet_y(0),
 	is_collide(0), no_frames(0), frame_delay(0),
@@ -28,7 +29,7 @@ TileRawInfo::TileRawInfo(const Tile& t) {
 		frame_clips = t.getFrameClips();
 	}
 	else {
-		tile_type = TileType::STATC;
+		tile_type = TileType::STATIC;
 	}
 
 	SDL_Rect r = t.getSDL_Rect();
@@ -67,50 +68,135 @@ std::vector<TileRawInfo> read_tile_file(const std::string filename) {
 			continue;
 
 		if (line[0] == '{') {
-			it++;
+			//it++;
 			
-			auto toks = strtok(line, ',');
+			line = line.substr(1, line.length());
+			
+			auto tokens = strtok(line, ',');
 
 			std::string get_tile_type = *it;
 						
 			TileRawInfo raw_tile;
 
-			if (get_tile_type[0] == 's') { // probably should use a proper strcmp
+			// if (get_tile_type[0] == 's') { // probably should use a proper strcmp
+			// 	raw_tile.tile_type = TileType::STATIC;
+			// }
+			// 	raw_tile.tile_type = TileType::STATIC;
+			// }
+			// else {
+			// 	raw_tile.tile_type = TileType::ANIM;
+			// }
+
+			//it++;
+			//std::string line = *it;
+			//std::vector<std::string> tokens = str_split(line, ' ');
+
+			//raw_tile.file_path = tokens[0];
+			if (std::strcmp(tokens[0].c_str(), "s") == 0) {
 				raw_tile.tile_type = TileType::STATIC;
+				std::cout << "Static Tile" << std::endl;
 			}
-			else {
+			else if (std::strcmp(tokens[0].c_str(), "a") == 0) {
 				raw_tile.tile_type = TileType::ANIM;
 			}
-
-			it++;
-			std::string line = *it;
-			std::vector<std::string> tokens = str_split(line, ' ');
-
-			raw_tile.file_path = tokens[0];
-			raw_tile.bb_x = std::stoi(tokens[1]);
-			raw_tile.bb_y = std::stoi(tokens[2]);
-			raw_tile.bb_w = std::stoi(tokens[3]);
-			raw_tile.bb_h = std::stoi(tokens[4]);
-			raw_tile.tilesheet_x = std::stoi(tokens[5]);
-			raw_tile.tilesheet_y = std::stoi(tokens[6]);
-			raw_tile.is_collide = std::stoi(tokens[7]);
-			raw_tile.no_frames = std::stoi(tokens[8]);
-			raw_tile.frame_delay = std::stoi(tokens[9]);
-			
-			if (raw_tile.tile_type == TileType::ANIM) {
-				it++;
-				std::string c = *it;
-				std::vector<std::string> clips = str_split(c, ' ');
-				
-				for (std::size_t i = 0; i <= clips.size() - 4; i += 4) {
-					SDL_Rect r;
-					r.x = std::stoi(clips[i]);
-					r.y = std::stoi(clips[i+1]);
-					r.w = std::stoi(clips[i+2]);
-					r.h = std::stoi(clips[i+3]);
-					raw_tile.frame_clips.push_back(r);
-				}
+			else {
+				std::cout << "MAP DATA READ ERROR - Unrecognized tile type" << std::endl;
 			}
+			raw_tile.bb_x = std::stoi(tokens[1].c_str());
+			raw_tile.bb_y = std::stoi(tokens[2].c_str());
+			raw_tile.bb_w = std::stoi(tokens[3].c_str());
+			raw_tile.bb_h = std::stoi(tokens[4].c_str());
+			raw_tile.tilesheet_x = std::stoi(tokens[5].c_str());
+			raw_tile.tilesheet_y = std::stoi(tokens[6].c_str());
+			
+			//raw_tile.tilesheet_y = std::stoi(tokens[7].c_str());
+			if (std::stoi(tokens[7].c_str()) == 1) {
+				raw_tile.is_collide = true;
+			}
+			else {
+				raw_tile.is_collide = false;
+			}
+			//raw_tile.no_frames = std::stoi(tokens[8]);
+			// raw_tile.frame_delay = std::stoi(tokens[8]);
+			
+			// if (raw_tile.tile_type == TileType::ANIM) {
+			// 	it++;
+			// 	std::string c = *it;
+			// 	std::vector<std::string> clips = str_split(c, ' ');
+				
+			// 	for (std::size_t i = 0; i <= clips.size() - 4; i += 4) {
+			// 		SDL_Rect r;
+			// 		r.x = std::stoi(clips[i]);
+			// 		r.y = std::stoi(clips[i+1]);
+			// 		r.w = std::stoi(clips[i+2]);
+			// 		r.h = std::stoi(clips[i+3]);
+			// 		raw_tile.frame_clips.push_back(r);
+			// 	}
+			// }
+			tile_info.push_back(raw_tile);
+		}
+	}
+	return tile_info;
+}
+
+std::vector<TileRawInfo> parse_raw_tile_data(std::vector<std::string>& data) {
+	std::vector<TileRawInfo> tile_info;
+	
+	auto it = std::begin(data);
+	for (it; it != std::end(data); it++) {
+
+		std::string line = *it;
+
+		// this should not evaluate to true based on the file_read_lines function
+		if (line[0] == '#')
+			continue;
+		
+		if (line[0] == '}')
+			continue;
+
+		if (line[0] == '{') {
+			//it++;
+			
+			line = line.substr(1, line.length());
+			
+			auto tokens = strtok(line, ',');
+
+			std::string get_tile_type = *it;
+						
+			TileRawInfo raw_tile;
+
+//
+			raw_tile.bb_x = std::stoi(tokens[1].c_str());
+			raw_tile.bb_y = std::stoi(tokens[2].c_str());
+			raw_tile.bb_w = std::stoi(tokens[3].c_str());
+			raw_tile.bb_h = std::stoi(tokens[4].c_str());
+			raw_tile.tilesheet_x = std::stoi(tokens[5].c_str());
+			raw_tile.tilesheet_y = std::stoi(tokens[6].c_str());
+			if (std::stoi(tokens[7].c_str()) == 1) {
+				raw_tile.is_collide = true;
+			}
+			else {
+				raw_tile.is_collide = false;
+			}
+			//raw_tile.no_frames = std::stoi(tokens[8]);
+			// raw_tile.frame_delay = std::stoi(tokens[8]);
+			
+			// if (raw_tile.tile_type == TileType::ANIM) {
+			// 	it++;
+			// 	std::string c = *it;
+			// 	std::vector<std::string> clips = str_split(c, ' ');
+				
+			// 	for (std::size_t i = 0; i <= clips.size() - 4; i += 4) {
+			// 		SDL_Rect r;
+			// 		r.x = std::stoi(clips[i]);
+			// 		r.y = std::stoi(clips[i+1]);
+			// 		r.w = std::stoi(clips[i+2]);
+			// 		r.h = std::stoi(clips[i+3]);
+			// 		raw_tile.frame_clips.push_back(r);
+			// 	}
+			// }
+
+
 			tile_info.push_back(raw_tile);
 		}
 	}
@@ -167,8 +253,10 @@ std::string file_read(const std::string filename) {
 
 	std::stringstream buffer;
 	buffer << file.rdbuf();
-
-	return buffer.str();
+	file.close();
+	auto sbuf = buffer.str();
+	//std::cout << sbuf << std::endl;
+	return sbuf;
 }
 
 std::vector<std::string> file_read_lines(const std::string filename) {
@@ -179,10 +267,11 @@ std::vector<std::string> file_read_lines(const std::string filename) {
 	std::string input;
 
 	while (std::getline(ifs, input)) {
-		if (input[0] != '0') {
+		if (input[0] != '#') {
 			data.push_back(input);
 		}
 	}
+	std::cout << "Read " << data.size() << " lines." << std::endl;
 	return data;
 }
 
