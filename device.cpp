@@ -69,7 +69,6 @@ bool Device::input_pump_events() {
 			return false;
 		}
 		if (event.type == SDL_KEYDOWN) {
-			std::cout << "key press" << std::endl;
 
 			int code = event.key.keysym.sym;
 
