@@ -49,7 +49,7 @@ TileRawInfo::TileRawInfo(const Tile& t) {
 // RawTileInfo format
 // Must be converted from RawTileInfo to Tile to use in engine
 //
-std::vector<TileRawInfo> read_tile_file(const std::string filename) {
+std::vector<TileRawInfo> read_tile_file(const std::string& filename) {
 
 	std::vector<std::string> source = file_read_lines(filename);
 
@@ -243,7 +243,7 @@ void write_tile_data(std::vector<std::unique_ptr<Tile>>& tiles) {
 /////////////////////
 /////////////////////
 
-std::string file_read(const std::string filename) {
+std::string file_read(const std::string& filename) {
 
 	std::ifstream file;
 	file.open(filename);
@@ -259,7 +259,7 @@ std::string file_read(const std::string filename) {
 	return sbuf;
 }
 
-std::vector<std::string> file_read_lines(const std::string filename) {
+std::vector<std::string> file_read_lines(const std::string& filename) {
 
 	std::vector<std::string> data;
 
@@ -276,7 +276,7 @@ std::vector<std::string> file_read_lines(const std::string filename) {
 }
 
 
-std::vector<std::string> str_split(const std::string str, const char delim) {
+std::vector<std::string> str_split(const std::string& str, const char delim) {
 	std::vector<std::string> tokens;
 	std::string temp = "";
 	for (std::size_t i = 0; i < str.length(); i++) {

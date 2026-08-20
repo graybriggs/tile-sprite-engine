@@ -28,10 +28,12 @@ struct TileRawInfo {
 };
 
 
-std::string file_read(const std::string filename);
-std::vector<std::string> file_read_lines(const std::string filename);
-std::vector<TileRawInfo> read_tile_file(const std::string filename);
-std::vector<std::string> str_split(const std::string str, const char delim);
+std::string file_read(const std::string& filename);
+std::vector<std::string> file_read_lines(const std::string& filename);
+std::vector<TileRawInfo> read_tile_file(const std::string& filename);
+std::vector<std::string> str_split(const std::string& str, const char delim);
+
+std::vector<TileRawInfo> parse_raw_tile_data(std::vector<std::string>& data);
 
 void write_tile_data(std::vector<std::unique_ptr<Tile>>& tiles);
 std::vector<std::string> strtok(const std::string& str, const char delim);
