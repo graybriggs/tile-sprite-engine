@@ -11,7 +11,7 @@ class ImageAssetResource;
 class Entity {
 
 public:
-	Entity(ImageAssetResource* s, const util::Rect bb);
+	Entity(ImageAssetResource* s, const SDL_Rect bb);
 	virtual ~Entity();
 
 	void moveTo(const float x, const float y);
@@ -19,11 +19,10 @@ public:
 	void setPosition(const float x, const float y);
 	void setPosition(const SDL_Rect);
 	void setPosition(const util::Rect);
-	util::Rect getBoundingBox() const;
+	SDL_Rect getBoundingBox() const;
 	SDL_Rect getSDL_Rect() const;
 	void setBoundingBox(float x, float y, int w, int h);
 	void setBoundingBox(SDL_Rect box);
-	void setBoundingBox(util::Rect rect);
 	ImageAssetResource* getImageAssetResource() const;
 	SDL_Rect getImageClip() const;
 	void setImageClip(SDL_Rect);
@@ -31,7 +30,8 @@ public:
 protected:
 
 	SDL_Rect image_clip_box;
-	util::Rect bounding_box;
+	//util::Rect bounding_box;
+	SDL_Rect bounding_box;
 	ImageAssetResource* image;
 };
 

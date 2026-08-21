@@ -2,7 +2,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 #include <vector>
 
@@ -16,19 +16,21 @@ class Tile;
 class Player : public Entity {
 public:
 
-	const float X_MOVE_SPEED = 0.5f;
-	const float Y_MOVE_SPEED = 0.25f;
+	const float X_MOVE_SPEED = 2.f;
+	const float Y_MOVE_SPEED = 1.5f;
 
 	Player();
 
-	void handleInput(const EventList&);
+	//void handleInput(const EventList&);
+	void handleInput();
 	void update(const float delta);
 	// updateFrame(time);
 
-	util::Rect getBoundingBox() const;
-	void setBoundingBox(const util::Rect);
+	SDL_Rect getBoundingBox() const;
+	void setBoundingBox(const SDL_Rect rect);
 	void setScreenPosition(const int x, const int y);
 	void stop();
+	void move_back();
 	void tile_collide(const Tile& tile);
 private:
 
