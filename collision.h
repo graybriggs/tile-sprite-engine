@@ -1,9 +1,6 @@
 #pragma once
 
-#ifndef COLLISION_H
-#define COLLISION_H
-
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 struct Triangle {
 	int x;
@@ -19,6 +16,10 @@ struct col_obj {
 	Triangle tri;
 };
 
-bool aabb_collision(const SDL_Rect& A, const SDL_Rect& B);
+enum class Side { TOP, BOTTOM, LEFT, RIGHT, NONE };
+
+//bool aabb_collision(const SDL_Rect& A, const SDL_Rect& B);
+Side aabb_collision(const SDL_Rect& A, const SDL_Rect& B);
 //bool tri_rect_intersection();
-#endif
+
+void print_collision_info(Side side);
