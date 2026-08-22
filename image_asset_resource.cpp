@@ -2,7 +2,7 @@
 #include "image_asset_resource.h"
 
 
-#include <iostream>
+#include <print>
 #include <stdexcept>
 #include <utility>
 
@@ -39,11 +39,11 @@ int ImageAssetResource::load_spritesheet(SDL_Renderer* renderer, SDL_Texture** s
 
 	SDL_Surface* surface_img = SDL_LoadBMP(img_path.c_str());
 	if (surface_img == nullptr) {
-		std::cout << "Error loading image: " + img_path << std::endl;
+		std::print("Error loading image: {}", img_path);
 		throw - 1;
 	}
 	else {
-		std::cout << "Loaded: " + img_path << std::endl;
+		std::print("Loaded: {}", img_path);
 	}
 
 	// specify a color key for transparent pixels - here it's 0xFF00FF - bright pink
